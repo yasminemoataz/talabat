@@ -4,7 +4,7 @@ require_once __DIR__ . '/../app/controllers/LoginController.php';
 require_once __DIR__ . '/../app/controllers/SignupController.php';
 require_once __DIR__ . '/../app/controllers/AdminController.php';
 require_once __DIR__ . '/../app/controllers/MenuController.php';
-require_once __DIR__ . '/../app/controllers/VendorController.php'; // 🆕 ADD THIS
+require_once __DIR__ . '/../app/controllers/VendorController.php';
 
 $page = $_GET['page'] ?? 'home';
 $vendor = $_GET['vendor'] ?? '';
@@ -27,16 +27,9 @@ switch ($page) {
     case 'admin':
         $controller = new AdminController();
         break;
-    // In your router, replace the vendors case with:
-case 'vendors':
-    // Temporary - redirect to MyCorner until vendor list is ready
-    header('Location: ?page=vendor&vendor=mycorner');
-    exit;
-    break;
     case 'vendors':
-    require_once __DIR__ . '/../app/controllers/VendorController.php';
-    $controller = new VendorController();
-    break;
+        $controller = new VendorController();
+        break;
     default:
         $controller = new HomeController();
         break;

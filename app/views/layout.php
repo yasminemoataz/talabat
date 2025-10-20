@@ -739,15 +739,16 @@ $hotDeals = [
 
             </div>
             
-         <div class="header-nav">
-    <div class="nav-links">
-        <a href="index.php" class="active">Home</a>
-<a href="index.php?page=vendors">Vendors</a>      
-  <a href="#">Deals</a>
-    </div>
-</div>
-
-            </div>
+             <div class="header-nav">
+                     <div class="nav-links">
+                         <a href="?" class="active">Home</a>
+                         <a href="?page=vendors" class="active">Restaurants</a>
+                         <a href="#" class="">Deals</a>
+                         <a href="#" class="">Fast Food</a>
+                         <a href="#" class="">Desserts</a>
+                         <a href="#" class="">Beverages</a>
+                     </div>
+             </div>
         </div>
         
          <div class="promo-banner">
