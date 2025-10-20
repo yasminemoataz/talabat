@@ -16,6 +16,10 @@ switch ($page) {
     require_once __DIR__ . '/../app/controllers/AdminController.php';
     $controller = new AdminController();
     break;
+    case 'vendors':
+    require_once __DIR__ . '/../app/controllers/VendorController.php';
+    $controller = new VendorController();
+    break;
     default:
         $controller = new HomeController();
         break;

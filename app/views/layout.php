@@ -706,15 +706,14 @@
 
             </div>
             
-            <div class="header-nav">
-                <div class="nav-links">
-                    <a href="#" class="active">Home</a>
-                    <a href="#">Restaurants</a>
-                    <a href="#">Deals</a>
-                    <a href="#">Fast Food</a>
-                    <a href="#">Desserts</a>
-                    <a href="#">Beverages</a>
-                </div>
+         <div class="header-nav">
+    <div class="nav-links">
+        <a href="index.php" class="active">Home</a>
+<a href="index.php?page=vendors">Vendors</a>      
+  <a href="#">Deals</a>
+    </div>
+</div>
+
             </div>
         </div>
         
