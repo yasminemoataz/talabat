@@ -1,500 +1,945 @@
-<?php
-
-$page = $_GET['page'] ?? 'dashboard';
-$pagePath = __DIR__ . "/pages/$page.php";
-if (!file_exists($pagePath)) {
-  $pagePath = __DIR__ . "/pages/dashboard.php";
-}
-
-$view = $_GET['view'] ?? 'navbar';
-
-$toggleLink = "?page=$page&view=" . ($view === 'navbar' ? 'sidebar' : 'navbar');
-
-$hotDeals = [
-    [
-        'title' => 'Cinnabon Special',
-        'discount' => '40% OFF',
-        'description' => 'Exclusive Cinnabon desserts and treats with amazing discounts',
-        'image' => 'images/oreo.webp'],
-    [
-        'title' => 'Cinnabon Delights',
-        'discount' => '30% OFF',
-        'description' => 'Freshly baked cinnamon rolls with irresistible offers',
-        'image' =>'images/cinna.webp'
-    ],
-    [
-        'title' => 'Tbs Exclusive',
-        'discount' => '25% OFF',
-        'description' => 'Sneak a peek at our unique Tbs specials and deals',
-        'image' => 'images/3rd.avif']
-];
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>miu-orders Dashboard</title>
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #fbf6f6ff;
-      color: #333;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>miu-talabat - Food Delivery</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
 
-    .container {
-      display: flex;
-      min-height: 100vh;
-    }
+        :root {
+            --primary-red: #e4002b;
+            --dark-red: #c20023;
+            --light-red: #ffebee;
+            --text-dark: #333333;
+            --text-light: #666666;
+            --background: #f8f8f8;
+            --white: #ffffff;
+            --shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            --transition: all 0.3s ease;
+        }
 
-    .sidebar {
-      width: 220px;
-      background: #ff0b27ff;
-      color: #fff;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      padding: 20px;
-      height: 100vh;
-    }
+        body {
+            background-color: var(--background);
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
 
-    .hidden {
-      display: none;
-    }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
 
-    .sidebar h2 {
-      text-align: center;
-      margin-top: 0;
-    }
+        /* Header Styles */
+        header {
+            background-color: var(--white);
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
 
-    .sidebar ul {
-      list-style: none;
-      padding: 0;
-    }
+        .header-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
 
-    .sidebar ul li {
-      margin: 15px 0;
-    }
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
 
-    .sidebar ul li a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: 500;
-      display: block;
-      padding: 10px;
-      border-radius: 8px;
-      transition: 0.3s;
-    }
+        .logo img {
+            height: 40px;
+        }
 
-    .sidebar ul li a:hover,
-    .sidebar ul li a.active {
-      background: #c12300ff;
-    }
+        .logo h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary-red);
+        }
 
-    .sidebar .socials {
-      text-align: center;
-    }
+        .location-selector {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--light-red);
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: var(--transition);
+        }
 
-    .sidebar .socials a {
-      color: #dce2f7;
-      margin: 0 5px;
-      text-decoration: none;
-      font-size: 13px;
-    }
+        .location-selector:hover {
+            background: #ffdde1;
+        }
 
-    .main-content {
-      flex: 1;
-      padding: 20px 40px;
-      background: #fff;
-      border-top-left-radius: 20px;
-      border-bottom-left-radius: 20px;
-    }
+        .location-selector i {
+            color: var(--primary-red);
+        }
 
-    header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: #ff0b27ff;
-      color: #fff;
-      padding: 15px 25px;
-      border-radius: 10px;
-      margin-bottom: 20px;
-    }
+        .location-selector span {
+            font-weight: 500;
+        }
 
-    header nav a {
-      color: #fff;
-      text-decoration: none;
-      margin: 0 10px;
-      font-weight: 500;
-    }
+        .search-bar {
+            flex: 1;
+            max-width: 500px;
+            margin: 0 20px;
+        }
 
-    .profile {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
+        .search-form {
+            display: flex;
+            background: var(--white);
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            border: 1px solid #e0e0e0;
+        }
 
-    .profile img {
-      border-radius: 50%;
-    }
+        .search-input {
+            flex: 1;
+            padding: 12px 20px;
+            border: none;
+            font-size: 16px;
+            outline: none;
+        }
 
-    footer {
-      text-align: center;
-      padding: 15px;
-      background: #f9f9f9;
-      color: #555;
-      font-size: 14px;
-      border-top: 1px solid #eee;
-      margin-top: 30px;
-    }
+        .search-button {
+            background: var(--primary-red);
+            border: none;
+            padding: 12px 20px;
+            color: var(--white);
+            cursor: pointer;
+            transition: var(--transition);
+        }
 
-    .search-container {
-      flex: 1;
-      max-width: 400px;
-      margin: 0 20px;
-    }
+        .search-button:hover {
+            background: var(--dark-red);
+        }
 
-    .search-form {
-      display: flex;
-    }
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
 
-    .search-input {
-      flex: 1;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 20px 0 0 20px;
-      font-size: 14px;
-      outline: none;
-    }
+        .action-btn {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 5px;
+            background: none;
+            border: none;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 12px;
+        }
 
-    .search-button {
-      background: #fff;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 0 20px 20px 0;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
+        .action-btn i {
+            font-size: 20px;
+        }
 
-    .search-button:hover {
-      background: #f0f0f0;
-    }
+        .action-btn:hover {
+            color: var(--primary-red);
+        }
 
-    .hot-deals-section {
-      margin: 30px 0;
-      padding: 20px;
-      background: #fff;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(255, 11, 39, 0.1);
-    }
+        .cart-btn {
+            position: relative;
+        }
 
-    .section-title {
-      color: #ff0b27ff;
-      font-size: 24px;
-      margin-bottom: 20px;
-      text-align: center;
-      position: relative;
-    }
+        .cart-count {
+            position: absolute;
+            top: -5px;
+            right: 5px;
+            background: var(--primary-red);
+            color: white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: bold;
+        }
 
-    .section-title::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 3px;
-      background: #ff0b27ff;
-      margin: 10px auto;
-    }
+        .header-nav {
+            display: flex;
+            justify-content: space-between;
+            padding: 15px 0;
+            border-top: 1px solid #f0f0f0;
+        }
 
-    .deals-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 25px;
-      margin-top: 20px;
-    }
+        .nav-links {
+            display: flex;
+            gap: 25px;
+        }
 
-    .deal-card {
-      background: #fff;
-      border-radius: 12px;
-      overflow: hidden;
-      box-shadow: 0 4px 12px rgba(255, 11, 39, 0.15);
-      border: 2px solid #ffebee;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 500;
+            transition: var(--transition);
+            padding: 5px 0;
+            position: relative;
+        }
 
-    .deal-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 8px 20px rgba(255, 11, 39, 0.2);
-    }
+        .nav-links a:hover {
+            color: var(--primary-red);
+        }
 
-    .deal-image {
-      height: 200px;
-      overflow: hidden;
-    }
+        .nav-links a.active {
+            color: var(--primary-red);
+        }
 
-    .deal-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      transition: transform 0.5s;
-    }
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: var(--primary-red);
+        }
 
-    .deal-card:hover .deal-image img {
-      transform: scale(1.05);
-    }
+        .promo-banner {
+            background: linear-gradient(to right, var(--primary-red), var(--dark-red));
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+            font-size: 14px;
+        }
 
-    .deal-content {
-      padding: 20px;
-      text-align: center;
-    }
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/hero-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            border-radius: 15px;
+            margin: 20px 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            color: white;
+            position: relative;
+            overflow: hidden;
+        }
 
-    .deal-badge {
-      background: #ff0b27ff;
-      color: white;
-      padding: 5px 15px;
-      border-radius: 20px;
-      font-weight: bold;
-      font-size: 14px;
-      display: inline-block;
-      margin-bottom: 15px;
-    }
+        .hero-content {
+            max-width: 600px;
+            padding: 0 20px;
+        }
 
-    .deal-title {
-      color: #333;
-      font-size: 18px;
-      font-weight: 600;
-      margin-bottom: 10px;
-    }
+        .hero h2 {
+            font-size: 42px;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 5px rgba(0, 0, 0, 0.5);
+        }
 
-    .deal-description {
-      color: #666;
-      font-size: 14px;
-      margin-bottom: 15px;
-      line-height: 1.4;
-    }
+        .hero p {
+            font-size: 18px;
+            margin-bottom: 25px;
+            text-shadow: 0 2px 3px rgba(0, 0, 0, 0.5);
+        }
 
-    .deal-button {
-      background: #ff0b27ff;
-      color: white;
-      border: none;
-      padding: 8px 20px;
-      border-radius: 6px;
-      cursor: pointer;
-      font-weight: 500;
-      transition: background 0.3s;
-    }
+        .hero-btn {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 30px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition);
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
 
-    .deal-button:hover {
-      background: #c12300ff;
-    }
-<style>
-/* Most-Loved Places Styles - UPDATED */
-.most-loved-section {
-  margin: 40px 0;
-  padding: 25px;
-  background: #fff;
-  border-radius: 15px;
-  box-shadow: 0 5px 15px rgba(255, 11, 39, 0.1);
-}
+        .hero-btn:hover {
+            background: var(--dark-red);
+            transform: translateY(-3px);
+        }
 
-.most-loved-title {
-  color: #ff0b27ff;
-  font-size: 28px;
-  text-align: center;
-  margin-bottom: 25px;
-  font-weight: 700;
-}
+        /* Categories Section */
+        .section {
+            margin: 40px 0;
+        }
 
-.restaurants-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-  gap: 10px;
-  justify-items: center;
-  align-items: center;
-}
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
 
-.restaurant-card {
-  text-align: center;
-  transition: transform 0.3s;
-  padding: 8px;
-  border-radius: 8px;
-  background: #fff;
-  width: 100%;
-}
+        .section-title {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
 
-.restaurant-card:hover {
-  transform: translateY(-3px);
-}
+        .view-all {
+            color: var(--primary-red);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
 
-.restaurant-logo {
-  width: 100px;
-  height: 100px;
-  border-radius: 8px;
-  object-fit: contain;
-  margin-bottom: 5px;
-  border: 2px solid #ffebee;
-  transition: border-color 0.3s;
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 5px;
-  background: #fff;
-}
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+            gap: 20px;
+        }
 
-.restaurant-card:hover .restaurant-logo {
-  border-color: #ff0b27ff;
-}
+        .category-card {
+            background: var(--white);
+            border-radius: 12px;
+            padding: 15px 10px;
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            cursor: pointer;
+        }
 
-.restaurant-name {
-  font-size: 13px;
-  font-weight: 600;
-  color: #333;
-  margin: 0;
-  line-height: 1.2;
-}
+        .category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
 
-@media (max-width: 768px) {
-  .restaurants-grid {
-    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-    gap: 8px;
-  }
-  
-  .restaurant-logo {
-    width: 90px;
-    height: 90px;
-  }
-  
-  .restaurant-name {
-    font-size: 12px;
-  }
-}
+        .category-icon {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--light-red);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 10px;
+            color: var(--primary-red);
+            font-size: 24px;
+        }
 
-@media (max-width: 480px) {
-  .restaurants-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 12px;
-  }
-  
-  .restaurant-logo {
-    width: 100px;
-    height: 100px;
-  }
-  
-  .most-loved-section {
-    padding: 20px;
-  }
-}
-</style>
+        .category-name {
+            font-weight: 500;
+            font-size: 14px;
+        }
+
+        /* Hot Deals Section */
+        .hot-deals-section {
+            background: var(--white);
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: var(--shadow);
+        }
+
+        .deals-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .deal-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f0f0f0;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .deal-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .deal-image {
+            height: 180px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .deal-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .deal-card:hover .deal-image img {
+            transform: scale(1.05);
+        }
+
+        .deal-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: var(--primary-red);
+            color: white;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        .deal-content {
+            padding: 20px;
+        }
+
+        .deal-title {
+            color: var(--text-dark);
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .deal-description {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 15px;
+            line-height: 1.5;
+        }
+
+        .deal-button {
+            background: var(--primary-red);
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: var(--transition);
+            width: 100%;
+        }
+
+        .deal-button:hover {
+            background: var(--dark-red);
+        }
+
+        /* Most Loved Restaurants */
+        .restaurants-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 25px;
+        }
+
+        .restaurant-card {
+            background: var(--white);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .restaurant-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .restaurant-image {
+            height: 160px;
+            overflow: hidden;
+        }
+
+        .restaurant-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .restaurant-card:hover .restaurant-image img {
+            transform: scale(1.05);
+        }
+
+        .restaurant-info {
+            padding: 15px;
+        }
+
+        .restaurant-name {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .restaurant-cuisine {
+            color: var(--text-light);
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .restaurant-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+
+        .rating-stars {
+            color: #ffc107;
+        }
+
+        .rating-value {
+            font-weight: 600;
+        }
+
+        .rating-count {
+            color: var(--text-light);
+            font-size: 14px;
+        }
+
+       
+
+        /* Footer */
+        footer {
+            background: #2c2c2c;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .footer-column h3 {
+            font-size: 18px;
+            margin-bottom: 20px;
+            position: relative;
+            padding-bottom: 10px;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 40px;
+            height: 3px;
+            background: var(--primary-red);
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #cccccc;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-links a {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 36px;
+            height: 36px;
+            background: #444444;
+            border-radius: 50%;
+            color: white;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            background: var(--primary-red);
+            transform: translateY(-3px);
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 20px;
+            border-top: 1px solid #444444;
+            font-size: 14px;
+            color: #aaaaaa;
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 992px) {
+            .header-top {
+                flex-wrap: wrap;
+            }
+            
+            .search-bar {
+                order: 3;
+                max-width: 100%;
+                margin: 15px 0 0;
+            }
+            
+            .hero h2 {
+                font-size: 32px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .user-actions {
+                gap: 15px;
+            }
+            
+            .action-btn span {
+                display: none;
+            }
+            
+            .nav-links {
+                overflow-x: auto;
+                padding-bottom: 10px;
+            }
+            
+            .hero {
+                height: 300px;
+            }
+            
+            .hero h2 {
+                font-size: 28px;
+            }
+            
+            .hero p {
+                font-size: 16px;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .logo h1 {
+                display: none;
+            }
+            
+            .location-selector span {
+                display: none;
+            }
+            
+            .hero {
+                height: 250px;
+            }
+            
+            .hero h2 {
+                font-size: 24px;
+            }
+            
+            .section-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 10px;
+            }
+            
+            .categories-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 10px;
+            }
+            
+            .category-card {
+                padding: 10px 5px;
+            }
+            
+            .category-icon {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+            
+            .category-name {
+                font-size: 12px;
+            }
+        }
+    </style>
 </head>
 <body>
-
-<?php if ($view === 'navbar'): ?>
-<header>
-  <div style="display:flex;align-items:center;gap:15px;">
-    <a href="<?= $toggleLink ?>" style="color:#fff;text-decoration:none;font-size:24px;">☰</a>
-    <h2 style="margin:0;">miu-orders</h2>
-  </div>
-
-  <div class="search-container">
-    <form action="index.php" method="get" class="search-form">
-      <input type="hidden" name="page" value="search">
-      <input type="text" name="q" placeholder="Search deals, products, restaurants..." 
-             class="search-input">
-      <button type="submit" class="search-button">
-        🔍
-      </button>
-    </form>
-  </div>
-
-  <form action="index.php" method="get">
-    <input type="hidden" name="page" value="login">
-    <button type="submit" style="background:none;border:none;cursor:pointer;font-size:20px;">👤</button>
-  </form>
-</header>
-
-
-<div class="hot-deals-section">
-  <h2 class="section-title">Today's Hot Deals</h2>
-  <div class="deals-grid">
-    <?php foreach ($hotDeals as $deal): ?>
-    <div class="deal-card">
-      <div class="deal-image">
-        <img src="<?= $deal['image'] ?>" alt="<?= $deal['title'] ?>">
-      </div>
-      <div class="deal-content">
-        <span class="deal-badge"><?= $deal['discount'] ?></span>
-        <h3 class="deal-title"><?= $deal['title'] ?></h3>
-        <p class="deal-description"><?= $deal['description'] ?></p>
-        <button class="deal-button">Grab Deal</button>
-      </div>
-    </div>
-    <?php endforeach; ?>
-  </div>
+    <!-- Header -->
+    <header>
+        <div class="container">
+            <div class="header-top">
+                <div class="logo">
+                    <img src="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTIwIiBoZWlnaHQ9IjQwIiB2aWV3Qm94PSIwIDAgMTIwIDQwIiBmaWxsPSJub25lIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciPjxwYXRoIGQ9Ik0xMCAxMEMxMCA0LjQ3NyAxNC40NzcgMCAyMCAwSDEwMGM1LjUyMyAwIDEwIDQuNDc3IDEwIDEwdjIwYzAgNS41MjMtNC40NzcgMTAtMTAgMTBIMjBjLTUuNTIzIDAtMTAtNC40NzctMTAtMTBWMTBaIiBmaWxsPSIjRTQwMDJCIi8+PHRleHQgeD0iNjAiIHk9IjI1IiB0ZXh0LWFuY2hvcj0ibWlkZGxlIiBmaWxsPSJ3aGl0ZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmb250LXdlaWdodD0iYm9sZCI+VEFMQUJBVDwvdGV4dD48L3N2Zz4=" alt="Talabat Logo">
+                    <h1>miu-talabat</h1>
+                </div>
+                
+               
+                <div class="search-bar">
+                    <form class="search-form">
+                        <input type="text" class="search-input" placeholder="Search for restaurants or dishes...">
+                        <button type="submit" class="search-button">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </form>
+                </div>
+                
+<div class="user-actions">
+    <a href="index.php?page=login" class="action-btn">
+        <i class="far fa-user"></i>
+        <span>Sign In</span>
+    </a>
+    <button class="action-btn cart-btn">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Cart</span>
+        <div class="cart-count">3</div>
+    </button>
 </div>
 
 
 
-<div class="main-content">
-  <div class="page-content">
-    <?php include $pagePath; ?>
-  </div>
-</div>
-
-<?php else: ?>
-<div class="container">
-  <div class="sidebar">
-    <h2>miu-orders</h2>
-    <ul>
-      <li><a href="?page=dashboard" class="<?= $page=='dashboard'?'active':'' ?>">Dashboard</a></li>
-      <li><a href="?page=orders" class="<?= $page=='orders'?'active':'' ?>">Order</a></li>
-      <li><a href="?page=products" class="<?= $page=='products'?'active':'' ?>">Product</a></li>
-      <li><a href="?page=stock" class="<?= $page=='stock'?'active':'' ?>">Stock</a></li>
-      <li><a href="?page=offers" class="<?= $page=='offers'?'active':'' ?>">Offer</a></li>
-    </ul>
-
-    <div class="socials">
-      <a href="#">Facebook</a>
-      <a href="#">Twitter</a>
-      <a href="#">Google</a>
-    </div>
-  </div>
-
-  <div class="main-content">
-    <a href="<?= $toggleLink ?>" style="font-size:24px;text-decoration:none;color:#ff0b27ff;">☰</a>
-   
-    <div class="hot-deals-section">
-      <h2 class="section-title">Today's Hot Deals</h2>
-      <div class="deals-grid">
-        <?php foreach ($hotDeals as $deal): ?>
-        <div class="deal-card">
-          <div class="deal-image">
-            <img src="<?= $deal['image'] ?>" alt="<?= $deal['title'] ?>">
-          </div>
-          <div class="deal-content">
-            <span class="deal-badge"><?= $deal['discount'] ?></span>
-            <h3 class="deal-title"><?= $deal['title'] ?></h3>
-            <p class="deal-description"><?= $deal['description'] ?></p>
-            <button class="deal-button">Grab Deal</button>
-          </div>
+            </div>
+            
+            <div class="header-nav">
+                <div class="nav-links">
+                    <a href="#" class="active">Home</a>
+                    <a href="#">Restaurants</a>
+                    <a href="#">Deals</a>
+                    <a href="#">Fast Food</a>
+                    <a href="#">Desserts</a>
+                    <a href="#">Beverages</a>
+                </div>
+            </div>
         </div>
-        <?php endforeach; ?>
-      </div>
+        
+        <div class="promo-banner">
+            <div class="container">
+                <p>🚚 Free delivery on orders above EGP 100! Order now</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="container">
+       <!-- Hero Section -->
+<section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/btatesandzalabya.jpg'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <h2>Craving something delicious?</h2>
+        <p>Get your favorite meals delivered fast to your room</p>
+        <button class="hero-btn">Order Now</button>
     </div>
+</section>
 
+</section>
 
-    <h2><?= ucfirst($page) ?></h2>
-    <div class="page-content">
-      <?php include $pagePath; ?>
-    </div>
-  </div>
-</div>
-<?php endif; ?>
+        <!-- Categories Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Categories</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-pizza-slice"></i>
+                    </div>
+                    <div class="category-name">Fast Food</div>
+                </div>
+                
+             
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <div class="category-name">Desserts</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-drumstick-bite"></i>
+                    </div>
+                    <div class="category-name">Chicken</div>
+                </div>
+               
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="category-name">Healthy</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="category-name">Cafés</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <div class="category-name">Bakeries</div>
+                </div>
+            </div>
+        </section>
 
-<footer>
-  © <?= date('Y') ?> miu-orders Dashboard — All rights reserved.
-</footer>
+        <!-- Hot Deals Section -->
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Today's Hot Deals</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="hot-deals-section">
+                <div class="deals-grid">
+                    <div class="deal-card">
+                        <div class="deal-image">
+                            <img src="images/oreo.webp" alt="Cinnabon Special">
+                            <span class="deal-badge">40% OFF</span>
+                        </div>
+                        <div class="deal-content">
+                            <h3 class="deal-title">Cinnabon Special</h3>
+                            <p class="deal-description">Exclusive Cinnabon desserts and treats with amazing discounts</p>
+                            <button class="deal-button">Grab Deal</button>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">
+                            <img src="images/cinna.webp" alt="Cinnabon Delights">
+                            <span class="deal-badge">30% OFF</span>
+                        </div>
+                        <div class="deal-content">
+                            <h3 class="deal-title">Cinnabon Delights</h3>
+                            <p class="deal-description">Freshly baked cinnamon rolls with irresistible offers</p>
+                            <button class="deal-button">Grab Deal</button>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">
+                            <img src="images/3rd.avif" alt="Tbs Exclusive">
+                            <span class="deal-badge">25% OFF</span>
+                        </div>
+                        <div class="deal-content">
+                            <h3 class="deal-title">Tbs Exclusive</h3>
+                            <p class="deal-description">Sneak a peek at our unique Tbs specials and deals</p>
+                            <button class="deal-button">Grab Deal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
 
+   
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>About Miu-Talabat</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact Us</a></li>
+                        <li><a href="#">Press</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>For Restaurants</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Partner with Us</a></li>
+                        <li><a href="#">Restaurant Login</a></li>
+                        <li><a href="#">Resources</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Help & Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#">Terms & Conditions</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Refund Policy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h3>Download Our App</h3>
+                    <p>Get the best experience with our mobile app</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2023 miu-talabat. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Simple JavaScript for interactive elements
+        document.addEventListener('DOMContentLoaded', function() {
+            // Category cards hover effect
+            const categoryCards = document.querySelectorAll('.category-card');
+            categoryCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Deal cards hover effect
+            const dealCards = document.querySelectorAll('.deal-card');
+            dealCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Restaurant cards hover effect
+            const restaurantCards = document.querySelectorAll('.restaurant-card');
+            restaurantCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+        });
+    </script>
 </body>
 </html>
