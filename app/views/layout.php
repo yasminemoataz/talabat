@@ -37,7 +37,6 @@
             padding: 0 15px;
         }
 
-        /* Header Styles */
         header {
             background-color: var(--white);
             box-shadow: var(--shadow);
@@ -222,7 +221,6 @@
             font-size: 14px;
         }
 
-        /* Hero Section */
         .hero {
             background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/hero-bg.jpg');
             background-size: cover;
@@ -274,7 +272,6 @@
             transform: translateY(-3px);
         }
 
-        /* Categories Section */
         .section {
             margin: 40px 0;
         }
@@ -340,7 +337,6 @@
             font-size: 14px;
         }
 
-        /* Hot Deals Section */
         .hot-deals-section {
             background: var(--white);
             border-radius: 15px;
@@ -433,7 +429,6 @@
             background: var(--dark-red);
         }
 
-        /* Most Loved Restaurants */
         .restaurants-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -507,7 +502,6 @@
 
        
 
-        /* Footer */
         footer {
             background: #2c2c2c;
             color: white;
@@ -590,7 +584,6 @@
             color: #aaaaaa;
         }
 
-        /* Responsive Styles */
         @media (max-width: 992px) {
             .header-top {
                 flex-wrap: wrap;
@@ -679,7 +672,6 @@
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container">
             <div class="header-top">
@@ -728,14 +720,12 @@
         
         <div class="promo-banner">
             <div class="container">
-                <p>🚚 Free delivery on orders above EGP 100! Order now</p>
+                <p>Great deals on your favorite meals! Order now</p>
             </div>
         </div>
     </header>
 
-    <!-- Main Content -->
     <main class="container">
-       <!-- Hero Section -->
 <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/btatesandzalabya.jpg'); background-size: cover; background-position: center;">
     <div class="hero-content">
         <h2>Craving something delicious?</h2>
@@ -746,7 +736,6 @@
 
 </section>
 
-        <!-- Categories Section -->
         <section class="section">
             <div class="section-header">
                 <h2 class="section-title">Categories</h2>
@@ -800,7 +789,6 @@
             </div>
         </section>
 
-        <!-- Hot Deals Section -->
         <section class="section">
             <div class="section-header">
                 <h2 class="section-title">Today's Hot Deals</h2>
@@ -850,7 +838,6 @@
 
    
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-content">
@@ -902,9 +889,7 @@
     </footer>
 
     <script>
-        // Simple JavaScript for interactive elements
         document.addEventListener('DOMContentLoaded', function() {
-            // Category cards hover effect
             const categoryCards = document.querySelectorAll('.category-card');
             categoryCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -916,7 +901,6 @@
                 });
             });
             
-            // Deal cards hover effect
             const dealCards = document.querySelectorAll('.deal-card');
             dealCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
@@ -928,7 +912,6 @@
                 });
             });
             
-            // Restaurant cards hover effect
             const restaurantCards = document.querySelectorAll('.restaurant-card');
             restaurantCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {

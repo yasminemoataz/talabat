@@ -1,13 +1,24 @@
 <?php
-require_once "../app/controllers/HomeController.php";
-require_once "../app/controllers/LoginController.php";
+require_once __DIR__ . '/../app/controllers/HomeController.php';
+require_once __DIR__ . '/../app/controllers/LoginController.php';
+require_once __DIR__ . '/../app/controllers/SignupController.php';
 
 $page = $_GET['page'] ?? 'home';
 
-if ($page === 'login') {
-    $controller = new LoginController();
-} else {
-    $controller = new HomeController();
+switch ($page) {
+    case 'login':
+        $controller = new LoginController();
+        break;
+    case 'signup':
+        $controller = new SignupController();
+        break;
+        case 'admin':
+    require_once __DIR__ . '/../app/controllers/AdminController.php';
+    $controller = new AdminController();
+    break;
+    default:
+        $controller = new HomeController();
+        break;
 }
 
 $controller->index();

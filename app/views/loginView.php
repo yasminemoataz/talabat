@@ -198,12 +198,13 @@
             <input id="password" name="password" type="password" placeholder="Password" required />
           </div>
 
-          <button type="submit" class="btn">Sign in</button>
+          <button type="submit" class="btn">Log in </button>
         </form>
 
-        <div class="minor">
-          <span>Don't have an account? <a class="link" href="#">Create one</a></span>
-        </div>
+      <div class="minor">
+  <span>Don't have an account? <a class="link" href="index.php?page=signup">Create one</a></span>
+</div>
+
 
         <?php if (isset($message)): ?>
           <div class="message <?php echo (!empty($success) && $success) ? 'msg-success' : 'msg-error'; ?>">
