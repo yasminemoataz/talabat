@@ -1,3 +1,9 @@
+<?php
+// Include the MenuController to get real data
+require_once '../controllers/MenuController.php';
+$menuController = new MenuController();
+$stats = $menuController->getAdminStats();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -387,7 +393,7 @@
                     <div class="stat-icon">
                         <i class="fas fa-layer-group"></i>
                     </div>
-                    <div class="stat-number">12</div>
+                    <div class="stat-number"><?php echo $stats['total_categories']; ?></div>
                     <div class="stat-label">Total Categories</div>
                 </div>
                 
@@ -395,23 +401,23 @@
                     <div class="stat-icon">
                         <i class="fas fa-utensils"></i>
                     </div>
-                    <div class="stat-number">48</div>
+                    <div class="stat-number"><?php echo $stats['total_foods']; ?></div>
                     <div class="stat-label">Total Foods</div>
                 </div>
                 
                 <div class="stat-card">
                     <div class="stat-icon">
-                        <i class="fas fa-shopping-cart"></i>
+                        <i class="fas fa-store"></i>
                     </div>
-                    <div class="stat-number">156</div>
-                    <div class="stat-label">Total Orders</div>
+                    <div class="stat-number"><?php echo $stats['total_vendors']; ?></div>
+                    <div class="stat-label">Total Vendors</div>
                 </div>
                 
                 <div class="stat-card">
                     <div class="stat-icon">
                         <i class="fas fa-dollar-sign"></i>
                     </div>
-                    <div class="stat-number">$2,450</div>
+                    <div class="stat-number">EGP <?php echo number_format($stats['total_revenue']); ?></div>
                     <div class="stat-label">Total Revenue</div>
                 </div>
             </div>

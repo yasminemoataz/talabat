@@ -1,3 +1,10 @@
+<?php
+// Include the MenuController to get real data
+require_once '../controllers/MenuController.php';
+$menuController = new MenuController();
+$allFoodItems = $menuController->getAllFoodItems();
+$allCategories = $menuController->getAllCategories();
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -479,12 +486,9 @@
                                 <label for="foodCategory">Category *</label>
                                 <select id="foodCategory" name="foodCategory" required>
                                     <option value="">Select Category</option>
-                                    <option value="fast-food">Fast Food</option>
-                                    <option value="desserts">Desserts</option>
-                                    <option value="chicken">Chicken</option>
-                                    <option value="healthy">Healthy</option>
-                                    <option value="cafes">Cafés</option>
-                                    <option value="bakeries">Bakeries</option>
+                                    <?php foreach ($allCategories as $category): ?>
+                                        <option value="<?php echo htmlspecialchars($category); ?>"><?php echo htmlspecialchars($category); ?></option>
+                                    <?php endforeach; ?>
                                 </select>
                             </div>
                             <div class="form-group">
@@ -517,8 +521,9 @@
                 <table class="food-table">
                     <thead>
                         <tr>
-                            <th>Image</th>
+                            <th>ID</th>
                             <th>Name</th>
+                            <th>Vendor</th>
                             <th>Category</th>
                             <th>Price</th>
                             <th>Status</th>
@@ -526,57 +531,35 @@
                         </tr>
                     </thead>
                     <tbody>
+                        <?php foreach ($allFoodItems as $item): ?>
                         <tr>
-                            <td><img src="../public/images/oreo.webp" alt="Cinnabon Special" class="food-image"></td>
-                            <td>Cinnabon Special</td>
-                            <td>Desserts</td>
-                            <td>$12.99</td>
-                            <td><span class="status-badge status-active">Active</span></td>
+                            <td><?php echo $item['id']; ?></td>
+                            <td>
+                                <div style="font-weight: 600;"><?php echo htmlspecialchars($item['name']); ?></div>
+                                <div style="font-size: 12px; color: #666;"><?php echo htmlspecialchars($item['description']); ?></div>
+                            </td>
+                            <td><?php echo htmlspecialchars($item['vendor_name']); ?></td>
+                            <td><?php echo htmlspecialchars($item['category']); ?></td>
+                            <td>EGP <?php echo number_format($item['price'], 2); ?></td>
+                            <td>
+                                <?php if ($item['is_available']): ?>
+                                    <span class="status-badge status-active">Available</span>
+                                <?php else: ?>
+                                    <span class="status-badge status-inactive">Unavailable</span>
+                                <?php endif; ?>
+                            </td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn btn-warning btn-sm" onclick="editFood(1)">
+                                    <button class="btn btn-warning btn-sm" onclick="editFood(<?php echo $item['id']; ?>)">
                                         <i class="fas fa-edit"></i>
                                     </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteFood(1)">
+                                    <button class="btn btn-danger btn-sm" onclick="deleteFood(<?php echo $item['id']; ?>)">
                                         <i class="fas fa-trash"></i>
                                     </button>
                                 </div>
                             </td>
                         </tr>
-                        <tr>
-                            <td><img src="../public/images/cinna.webp" alt="Cinnabon Delights" class="food-image"></td>
-                            <td>Cinnabon Delights</td>
-                            <td>Desserts</td>
-                            <td>$8.99</td>
-                            <td><span class="status-badge status-active">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-warning btn-sm" onclick="editFood(2)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteFood(2)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="../public/images/3rd.avif" alt="Tbs Exclusive" class="food-image"></td>
-                            <td>Tbs Exclusive</td>
-                            <td>Fast Food</td>
-                            <td>$15.99</td>
-                            <td><span class="status-badge status-inactive">Inactive</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn btn-warning btn-sm" onclick="editFood(3)">
-                                        <i class="fas fa-edit"></i>
-                                    </button>
-                                    <button class="btn btn-danger btn-sm" onclick="deleteFood(3)">
-                                        <i class="fas fa-trash"></i>
-                                    </button>
-                                </div>
-                            </td>
-                        </tr>
+                        <?php endforeach; ?>
                     </tbody>
                 </table>
             </div>

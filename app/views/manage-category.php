@@ -1,3 +1,22 @@
+<?php
+// Include the MenuController to get real data
+require_once '../controllers/MenuController.php';
+$menuController = new MenuController();
+$allCategories = $menuController->getAllCategories();
+$allFoodItems = $menuController->getAllFoodItems();
+
+// Count items per category
+$categoryStats = [];
+foreach ($allCategories as $category) {
+    $count = 0;
+    foreach ($allFoodItems as $item) {
+        if ($item['category'] === $category) {
+            $count++;
+        }
+    }
+    $categoryStats[$category] = $count;
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -504,14 +523,20 @@
                             <div class="form-group">
                                 <label for="categoryIcon">Icon Class</label>
                                 <select id="categoryIcon" name="categoryIcon">
-                                    <option value="fas fa-pizza-slice">Pizza Slice</option>
-                                    <option value="fas fa-ice-cream">Ice Cream</option>
-                                    <option value="fas fa-drumstick-bite">Chicken</option>
-                                    <option value="fas fa-leaf">Healthy</option>
+                                    <option value="fas fa-seedling">Seedling (فول)</option>
+                                    <option value="fas fa-french-fries">French Fries (بطاطس)</option>
+                                    <option value="fas fa-appetizer">Appetizer (مقبلات)</option>
+                                    <option value="fas fa-utensils">Utensils (كومبو)</option>
+                                    <option value="fas fa-egg">Egg (بيض)</option>
+                                    <option value="fas fa-fire">Fire (مشويات)</option>
+                                    <option value="fas fa-circle">Circle (طعمية)</option>
+                                    <option value="fas fa-bread-slice">Bread (سندوتشات)</option>
+                                    <option value="fas fa-Burger">Burger (برجر)</option>
+                                    <option value="fas fa-pasta">Pasta (مكرونة)</option>
+                                    <option value="fas fa-pizza-slice">Pizza (بيتزا)</option>
+                                    <option value="fas fa-child">Child (أطفال)</option>
                                     <option value="fas fa-coffee">Coffee</option>
-                                    <option value="fas fa-bread-slice">Bread</option>
-                                    <option value="fas fa-hamburger">Burger</option>
-                                    <option value="fas fa-fish">Seafood</option>
+                                    <option value="fas fa-leaf">Leaf (Mediterranean)</option>
                                 </select>
                             </div>
                         </div>
@@ -538,155 +563,54 @@
 
                 <!-- Categories Grid -->
                 <div class="categories-grid">
+                    <?php 
+                    $categoryIcons = [
+                        'فول' => 'fas fa-seedling',
+                        'بطاطس' => 'fas fa-french-fries',
+                        'مقبلات' => 'fas fa-appetizer',
+                        'كومبو' => 'fas fa-utensils',
+                        'بيض' => 'fas fa-egg',
+                        'مشويات' => 'fas fa-fire',
+                        'طعمية' => 'fas fa-circle',
+                        'سندوتشات' => 'fas fa-bread-slice',
+                        'برجر' => 'fas fa-hamburger',
+                        'مكرونة' => 'fas fa-pasta',
+                        'بيتزا' => 'fas fa-pizza-slice',
+                        'أطفال' => 'fas fa-child',
+                        'Coffee' => 'fas fa-coffee',
+                        'Mediterranean Specials' => 'fas fa-leaf'
+                    ];
+                    
+                    foreach ($allCategories as $index => $category): 
+                        $icon = isset($categoryIcons[$category]) ? $categoryIcons[$category] : 'fas fa-utensils';
+                        $foodCount = $categoryStats[$category];
+                        $orderCount = rand(5, 50); // Sample order count for Phase 1
+                    ?>
                     <div class="category-card">
                         <div class="category-icon">
-                            <i class="fas fa-pizza-slice"></i>
+                            <i class="<?php echo $icon; ?>"></i>
                         </div>
-                        <div class="category-name">Fast Food</div>
-                        <div class="category-description">Quick and delicious meals perfect for busy schedules</div>
+                        <div class="category-name"><?php echo htmlspecialchars($category); ?></div>
+                        <div class="category-description">Food items in <?php echo htmlspecialchars($category); ?> category</div>
                         <div class="category-stats">
                             <div class="stat-item">
-                                <span class="stat-number">15</span> Foods
+                                <span class="stat-number"><?php echo $foodCount; ?></span> Foods
                             </div>
                             <div class="stat-item">
-                                <span class="stat-number">45</span> Orders
+                                <span class="stat-number"><?php echo $orderCount; ?></span> Orders
                             </div>
                         </div>
                         <span class="status-badge status-active">Active</span>
                         <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(1)">
+                            <button class="btn btn-warning btn-sm" onclick="editCategory(<?php echo $index + 1; ?>)">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(1)">
+                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(<?php echo $index + 1; ?>)">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
                     </div>
-
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-ice-cream"></i>
-                        </div>
-                        <div class="category-name">Desserts</div>
-                        <div class="category-description">Sweet treats and desserts to satisfy your cravings</div>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">8</span> Foods
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">23</span> Orders
-                            </div>
-                        </div>
-                        <span class="status-badge status-active">Active</span>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(2)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(2)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-drumstick-bite"></i>
-                        </div>
-                        <div class="category-name">Chicken</div>
-                        <div class="category-description">Fresh and flavorful chicken dishes</div>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">12</span> Foods
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">38</span> Orders
-                            </div>
-                        </div>
-                        <span class="status-badge status-active">Active</span>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(3)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(3)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-leaf"></i>
-                        </div>
-                        <div class="category-name">Healthy</div>
-                        <div class="category-description">Nutritious and healthy meal options</div>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">6</span> Foods
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">18</span> Orders
-                            </div>
-                        </div>
-                        <span class="status-badge status-active">Active</span>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(4)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(4)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-coffee"></i>
-                        </div>
-                        <div class="category-name">Cafés</div>
-                        <div class="category-description">Coffee, tea, and café-style beverages</div>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">10</span> Foods
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">29</span> Orders
-                            </div>
-                        </div>
-                        <span class="status-badge status-active">Active</span>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(5)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(5)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="fas fa-bread-slice"></i>
-                        </div>
-                        <div class="category-name">Bakeries</div>
-                        <div class="category-description">Fresh baked goods and pastries</div>
-                        <div class="category-stats">
-                            <div class="stat-item">
-                                <span class="stat-number">7</span> Foods
-                            </div>
-                            <div class="stat-item">
-                                <span class="stat-number">21</span> Orders
-                            </div>
-                        </div>
-                        <span class="status-badge status-inactive">Inactive</span>
-                        <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(6)">
-                                <i class="fas fa-edit"></i> Edit
-                            </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(6)">
-                                <i class="fas fa-trash"></i> Delete
-                            </button>
-                        </div>
-                    </div>
+                    <?php endforeach; ?>
                 </div>
             </div>
         </div>
