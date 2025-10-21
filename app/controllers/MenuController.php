@@ -759,6 +759,36 @@ class MenuController {
      * Example: ?vendor=mycorner calls this method with 'mycorner'
      */
 public function show($vendorId) {
+    // === ADD CART HANDLING CODE HERE ===
+    if (session_status() == PHP_SESSION_NONE) {
+        session_start();
+    }
+    
+    if (!isset($_SESSION['cart'])) {
+        $_SESSION['cart'] = [];
+    }
+    
+    // Handle add to cart action
+    if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action']) && $_POST['action'] === 'add') {
+        $productId = $_POST['product_id'];
+        $productName = $_POST['product_name'];
+        $productPrice = floatval($_POST['product_price']);
+        
+        if (isset($_SESSION['cart'][$productId])) {
+            $_SESSION['cart'][$productId]['quantity']++;
+        } else {
+            $_SESSION['cart'][$productId] = [
+                'name' => $productName,
+                'price' => $productPrice,
+                'quantity' => 1
+            ];
+        }
+        
+    // Redirect back to same vendor page with a flag for confirmation
+    header("Location: index.php?page=vendor&vendor=$vendorId&added=1");
+        exit();
+    }
+    // === END CART HANDLING CODE ===
    
     // STEP 1: Check if the requested vendor exists
     if (!isset($this->vendors[$vendorId])) {

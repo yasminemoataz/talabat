@@ -1,5 +1,8 @@
-<?php
 
+<?php
+session_start();
+?>
+<?php
 $page = $_GET['page'] ?? 'dashboard';
 $pagePath = __DIR__ . "/pages/$page.php";
 if (!file_exists($pagePath)) {
@@ -807,13 +810,26 @@ $hotDeals = [
         <i class="far fa-user"></i>
         <span>Sign In</span>
     </a>
-<a href="index.php?page=cart" class="action-btn cart-btn" aria-label="Shopping Cart">
+<!--<a href="index.php?page=cart" class="action-btn cart-btn" aria-label="Shopping Cart">
     <i class="fas fa-shopping-cart"></i>
     <span class="visually-hidden">View Cart</span>
         <div class="cart-count">0</div>
     </a>
-</div>
-
+</div>-->
+  <a href="?page=cart" class="action-btn cart-btn" style="text-decoration: none; color: inherit;">
+    <i class="fas fa-shopping-bag"></i>
+    <span>Cart</span>
+    <div class="cart-count">
+        <?php 
+            $cartCount = 0;
+            if (isset($_SESSION['cart'])) {
+                foreach ($_SESSION['cart'] as $item) {
+                    $cartCount += $item['quantity'];
+                }
+            }
+            echo $cartCount;
+        ?>
+    </div>
 
 
             </div>

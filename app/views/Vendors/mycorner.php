@@ -1,5 +1,10 @@
 <?php
 // This file receives $vendor and $menuItems from MenuController
+
+// Add session start for cart functionality
+if (session_status() == PHP_SESSION_NONE) {
+    session_start();
+}
 ?>
 
 <!DOCTYPE html>
@@ -538,11 +543,21 @@
                         <i class="far fa-user"></i>
                         <span>Sign In</span>
                     </a>
-                    <button class="action-btn cart-btn">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span>Cart</span>
-                        <div class="cart-count">3</div>
-                    </button>
+                   <a href="?page=cart" class="action-btn cart-btn" style="text-decoration: none; color: inherit;">
+    <i class="fas fa-shopping-bag"></i>
+    <span>Cart</span>
+    <div class="cart-count">
+        <?php 
+            $cartCount = 0;
+            if (isset($_SESSION['cart'])) {
+                foreach ($_SESSION['cart'] as $item) {
+                    $cartCount += $item['quantity'];
+                }
+            }
+            echo $cartCount;
+        ?>
+    </div>
+</a>
                 </div>
             </div>
             
@@ -588,6 +603,12 @@
     </div>
 </div>
 
+<?php if (isset($_GET['added']) && $_GET['added'] == '1'): ?>
+    <div style="max-width:1200px;margin:10px auto;padding:10px;background:#e8f8ed;border:1px solid #b7e6c9;color:#1b7a3d;border-radius:6px;text-align:center;">
+        Item added to cart ✅
+    </div>
+<?php endif; ?>
+
             <!-- Menu Categories -->
             <div class="menu-container">
                 <?php if (empty($menuItems)): ?>
@@ -614,15 +635,21 @@
                                     
                                     <div class="item-actions">
                                         <div class="item-price">EGP <?php echo number_format($item['price'], 2); ?></div>
-                                        <?php if ($item['is_available']): ?>
-                                            <button class="add-to-cart" onclick="addToCart(<?php echo $item['id']; ?>, '<?php echo $item['name']; ?>')">
-                                                Add to Cart
-                                            </button>
-                                        <?php else: ?>
-                                            <button class="out-of-stock" disabled>
-                                                Out of Stock
-                                            </button>
-                                        <?php endif; ?>
+                                      <?php if ($item['is_available']): ?>
+    <form method="POST" action="index.php?page=vendor&vendor=<?php echo $vendor['id']; ?>" style="display: inline;">
+        <input type="hidden" name="product_id" value="<?php echo $item['id']; ?>">
+        <input type="hidden" name="product_name" value="<?php echo $item['name']; ?>">
+        <input type="hidden" name="product_price" value="<?php echo $item['price']; ?>">
+        <input type="hidden" name="action" value="add">
+        <button type="submit" class="add-to-cart">
+            Add to Cart
+        </button>
+    </form>
+<?php else: ?>
+    <button class="out-of-stock" disabled>
+        Out of Stock
+    </button>
+<?php endif; ?>
                                     </div>
                                 </div>
                             <?php endforeach; ?>
@@ -685,10 +712,10 @@
     </footer>
 
     <script>
-    function addToCart(itemId, itemName) {
+    /*function addToCart(itemId, itemName) {
         alert('Added ' + itemName + ' to cart!');
         // Will integrate with main cart system later
-    }
+    }*/
 
     // Add hover effects for menu items
     document.addEventListener('DOMContentLoaded', function() {

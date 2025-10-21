@@ -394,7 +394,6 @@ foreach ($cartItems as $item) {
             <div class="logo">TALABAT</div>
             <nav class="nav-links">
                 <a href="?page=home"><i class="fas fa-home"></i> Home</a>
-                <a href="?page=cart"><i class="fas fa-shopping-cart"></i> Cart</a>
             </nav>
         </div>
     </header>
@@ -411,9 +410,10 @@ foreach ($cartItems as $item) {
                     </div>
                     <h3>Your cart is empty</h3>
                     <p>Add some delicious items to get started!</p>
-                    <a href="?page=home" class="talabat-btn" style="margin-top: 20px;">
-                        <i class="fas fa-utensils"></i> Start Ordering
-                    </a>
+                    <a href="?page=vendors" class="talabat-btn" style="margin-top: 20px;">
+    <i class="fas fa-utensils"></i> Start Ordering
+</a>
+
                 </div>
             <?php else: ?>
                 <!-- Cart Items -->
@@ -509,9 +509,9 @@ foreach ($cartItems as $item) {
                                 <i class="fas fa-home"></i> Back to Home
                             </a>
                             
-                            <button class="talabat-btn checkout-btn">
-                                <i class="fas fa-lock"></i> Proceed to Checkout
-                            </button>
+                          <a href="index.php?page=checkout" class="checkout-btn" style="display: block; text-decoration: none; color: white;">
+    <i class="fas fa-lock"></i> Proceed to Checkout
+</a>
                         </div>
                     </div>
                 </div>
@@ -535,5 +535,7 @@ foreach ($cartItems as $item) {
             });
         });
     </script>
+
+    
 </body>
 </html>
