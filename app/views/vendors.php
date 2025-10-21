@@ -301,7 +301,7 @@
             display: flex;
         }
 
-        .restaurant-actions button {
+        .restaurant-actions .btn-primary {
             flex: 1;
             padding: 0.7rem;
             border: none;
@@ -309,15 +309,23 @@
             font-weight: 500;
             cursor: pointer;
             transition: all 0.3s;
+            background-color: var(--primary-red);
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    font-size: 0.9rem;
         }
 
-        .btn-primary {
-            background-color: var(--primary-red);
-            color: white;
-        }
+       
 
         .btn-primary:hover {
             background-color: var(--dark-red);
+              color: white;
+    text-decoration: none;
+
         }
 
         /* Footer */
@@ -412,10 +420,8 @@
             <nav>
                 <ul>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="#" class="active">Restaurants</a></li>
-                    <li><a href="#">Orders</a></li>
-                    <li><a href="#">Menu Items</a></li>
-                    <li><a href="#">Reports</a></li>
+                    <li><a href="#" class="active">vendors</a></li>
+                   
                 </ul>
             </nav>
             <div class="user-actions">
@@ -464,8 +470,8 @@
                         <span><i class="fas fa-dollar-sign"></i> $$</span>
                     </div>
                     <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -486,9 +492,9 @@
                         <span><i class="fas fa-clock"></i> 30-40 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $$</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+                   <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -509,9 +515,9 @@
                         <span><i class="fas fa-clock"></i> 20-30 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+                   <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -533,8 +539,8 @@
                         <span><i class="fas fa-dollar-sign"></i> $$</span>
                     </div>
                     <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -556,8 +562,8 @@
                         <span><i class="fas fa-dollar-sign"></i> $$</span>
                     </div>
                     <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -578,9 +584,9 @@
                         <span><i class="fas fa-clock"></i> 30-45 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $$$</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+                   <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -601,10 +607,10 @@
                         <span><i class="fas fa-clock"></i> 15-25 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $$</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
                 </div>
+       <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=mycorner" class="btn-primary">View Menu</a>
+</div>
             </div>
 
             <!-- Restaurant 8 -->
@@ -624,9 +630,9 @@
                         <span><i class="fas fa-clock"></i> 35-45 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $$</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+                  <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -647,9 +653,9 @@
                         <span><i class="fas fa-clock"></i> 30-40 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $$$</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+                   <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
 
@@ -670,9 +676,9 @@
                         <span><i class="fas fa-clock"></i> 10-20 min</span>
                         <span><i class="fas fa-dollar-sign"></i> $</span>
                     </div>
-                    <div class="restaurant-actions">
-                        <button class="btn-primary">View Menu</button>
-                    </div>
+                   <div class="restaurant-actions">
+    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
+</div>
                 </div>
             </div>
         </div>

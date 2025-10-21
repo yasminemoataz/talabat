@@ -758,29 +758,32 @@ class MenuController {
      * This is the main method that gets called when someone visits a vendor menu
      * Example: ?vendor=mycorner calls this method with 'mycorner'
      */
-    public function show($vendorId) {
-        // STEP 1: Check if the requested vendor exists
-        if (!isset($this->vendors[$vendorId])) {
-            $this->showError("Sorry, we couldn't find the vendor '$vendorId'");
-            return; // Stop here if vendor doesn't exist
-        }
-        
-        // STEP 2: Get the vendor information and menu items
-        $vendor = $this->vendors[$vendorId];        // Gets MyCorner info
-        $menuItems = $this->menus[$vendorId] ?? []; // Gets MyCorner menu items
-        
-        // STEP 3: Try to load the specific vendor view file
-        $viewFile = __DIR__ . '/../views/vendors/' . $vendorId . '.php';
-        
-        // STEP 4: Check if a custom view exists for this vendor
-        if (file_exists($viewFile)) {
-            // If specific view exists (like mycorner.php), use it
-            require_once $viewFile;
-        } else {
-            // If no specific view, use a generic one
-            $this->showGenericMenu($vendor, $menuItems);
-        }
+public function show($vendorId) {
+   
+    // STEP 1: Check if the requested vendor exists
+    if (!isset($this->vendors[$vendorId])) {
+        $this->showError("Sorry, we couldn't find the vendor '$vendorId'");
+        return;
     }
+    
+    // STEP 2: Get the vendor information and menu items
+    $vendor = $this->vendors[$vendorId];
+    $menuItems = $this->menus[$vendorId] ?? [];
+    
+    // STEP 3: Try to load the specific vendor view file
+    $viewFile = __DIR__ . '/../views/Vendors/' . $vendorId . '.php';
+    
+   
+    // STEP 4: Check if a custom view exists for this vendor
+    if (file_exists($viewFile)) {
+       
+        require_once $viewFile;
+       
+    } else {
+       
+        $this->showGenericMenu($vendor, $menuItems);
+    }
+}
     
     // ========================
     // 4. GENERIC MENU FALLBACK

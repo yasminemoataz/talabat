@@ -30,6 +30,7 @@ switch ($page) {
     case 'vendors':
         $controller = new VendorController();
         break;
+         
     default:
         $controller = new HomeController();
         break;
