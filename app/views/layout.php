@@ -188,9 +188,30 @@ $hotDeals = [
         }
 
         .cart-btn {
-            position: relative;
-        }
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    color: inherit;
+    padding: 8px;
+}
 
+.cart-btn i {
+    font-size: 1.2rem;
+}
+
+.visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
         .cart-count {
             position: absolute;
             top: -5px;
@@ -823,6 +844,10 @@ $hotDeals = [
     <div class="nav-links">
         <a href="index.php" class="active">Home</a>
         <a href="index.php?page=vendors">Vendors</a>      
+        <a href="index.php?page=cart" class="action-btn cart-btn" aria-label="Shopping Cart">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="visually-hidden">View Cart</span>
+</a>
         <a href="#">Deals</a>
     </div>
 </div>

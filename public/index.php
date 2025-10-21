@@ -5,7 +5,7 @@ require_once __DIR__ . '/../app/controllers/SignupController.php';
 require_once __DIR__ . '/../app/controllers/AdminController.php';
 require_once __DIR__ . '/../app/controllers/MenuController.php';
 require_once __DIR__ . '/../app/controllers/VendorController.php';
-
+require_once __DIR__ . '/../app/controllers/CartController.php'; // ADD THIS LINE
 $page = $_GET['page'] ?? 'home';
 $vendor = $_GET['vendor'] ?? '';
 
@@ -30,7 +30,9 @@ switch ($page) {
     case 'vendors':
         $controller = new VendorController();
         break;
-         
+    case 'cart':
+        $controller=new CartController();
+        break;
     default:
         $controller = new HomeController();
         break;
