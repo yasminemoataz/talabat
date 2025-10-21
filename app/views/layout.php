@@ -807,11 +807,12 @@ $hotDeals = [
         <i class="far fa-user"></i>
         <span>Sign In</span>
     </a>
-    <button class="action-btn cart-btn">
-        <i class="fas fa-shopping-bag"></i>
-        <span>Cart</span>
-        <div class="cart-count">3</div>
-    </button>
+<a href="index.php?page=cart" class="action-btn cart-btn" aria-label="Shopping Cart">
+    <i class="fas fa-shopping-cart"></i>
+    <span class="visually-hidden">View Cart</span>
+</a>
+        <div class="cart-count">0</div>
+    </a>
 </div>
 
 
