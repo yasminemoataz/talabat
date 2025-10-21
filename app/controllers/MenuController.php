@@ -912,5 +912,73 @@ public function show($vendorId) {
     public function getAllVendors() {
         return $this->vendors;
     }
+    
+    // ========================
+    // 7. ADMIN METHODS
+    // ========================
+    /**
+     * Get all menu data for admin panel
+     */
+    public function getAllMenuData() {
+        return [
+            'vendors' => $this->vendors,
+            'menus' => $this->menus
+        ];
+    }
+    
+    /**
+     * Get all categories across all vendors
+     */
+    public function getAllCategories() {
+        $categories = [];
+        foreach ($this->menus as $vendorId => $vendorMenus) {
+            foreach ($vendorMenus as $categoryName => $items) {
+                if (!in_array($categoryName, $categories)) {
+                    $categories[] = $categoryName;
+                }
+            }
+        }
+        return $categories;
+    }
+    
+    /**
+     * Get all food items across all vendors
+     */
+    public function getAllFoodItems() {
+        $allItems = [];
+        foreach ($this->menus as $vendorId => $vendorMenus) {
+            foreach ($vendorMenus as $categoryName => $items) {
+                foreach ($items as $item) {
+                    $item['vendor_id'] = $vendorId;
+                    $item['vendor_name'] = $this->vendors[$vendorId]['name'];
+                    $item['category'] = $categoryName;
+                    $allItems[] = $item;
+                }
+            }
+        }
+        return $allItems;
+    }
+    
+    /**
+     * Get statistics for admin dashboard
+     */
+    public function getAdminStats() {
+        $totalCategories = count($this->getAllCategories());
+        $totalFoods = count($this->getAllFoodItems());
+        $totalVendors = count($this->vendors);
+        
+        // Calculate total revenue (sample data for Phase 1)
+        $totalRevenue = 0;
+        foreach ($this->getAllFoodItems() as $item) {
+            $totalRevenue += $item['price'] * rand(1, 10); // Random quantity for demo
+        }
+        
+        return [
+            'total_categories' => $totalCategories,
+            'total_foods' => $totalFoods,
+            'total_vendors' => $totalVendors,
+            'total_revenue' => $totalRevenue
+        ];
+    }
 }
 ?>
