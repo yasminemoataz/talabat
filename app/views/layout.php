@@ -533,7 +533,86 @@ $hotDeals = [
             font-size: 14px;
         }
 
-       
+        /* Top Rated Restaurants Section Styles */
+        .top-rated-restaurants {
+            margin: 40px 0;
+        }
+
+        .top-rated-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+
+        .top-rated-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+
+        .top-rated-card:hover {
+            transform: translateY(-8px);
+        }
+
+        .restaurant-logo {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 15px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
+            overflow: hidden;
+            position: relative;
+            background: white;
+            transition: all 0.3s ease;
+            border: 3px solid #fff;
+        }
+
+        .top-rated-card:hover .restaurant-logo {
+            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
+        }
+
+        .logo-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .top-rated-name {
+            font-size: 18px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        @media (max-width: 768px) {
+            .top-rated-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 25px;
+            }
+            
+            .restaurant-logo {
+                width: 120px;
+                height: 120px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .top-rated-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 20px;
+            }
+            
+            .restaurant-logo {
+                width: 100px;
+                height: 100px;
+            }
+        }
 
         footer {
             background: #2c2c2c;
@@ -764,53 +843,40 @@ $hotDeals = [
              </div>
          </section>
          
-         <section class="section">
+         <!-- Top Rated Restaurants Section -->
+         <section class="top-rated-restaurants">
              <div class="section-header">
-                 <h2 class="section-title">Categories</h2>
+                 <h2 class="section-title">Top Rated Restaurants</h2>
                  <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
              </div>
              
-             <div class="categories-grid">
-                 <div class="category-card">
-                     <div class="category-icon">
-                         <i class="fas fa-pizza-slice"></i>
+             <div class="top-rated-grid">
+                 <div class="top-rated-card">
+                     <div class="restaurant-logo">
+                         <img src="images/cinnabon.png" alt="cinnabon" class="logo-img">
                      </div>
-                     <div class="category-name">Fast Food</div>
+                     <div class="top-rated-name">Cinnabon</div>
                  </div>
                  
-                 <div class="category-card">
-                     <div class="category-icon">
-                         <i class="fas fa-ice-cream"></i>
+                 <div class="top-rated-card">
+                     <div class="restaurant-logo">
+                         <img src="images/tbslogo.jpg" alt="tbs" class="logo-img">
                      </div>
-                     <div class="category-name">Desserts</div>
+                     <div class="top-rated-name">TBS</div>
                  </div>
                  
-                 <div class="category-card">
-                     <div class="category-icon">
-                         <i class="fas fa-drumstick-bite"></i>
+                 <div class="top-rated-card">
+                     <div class="restaurant-logo">
+                         <img src="images/farghalylogo.png" alt="farghaly" class="logo-img">
                      </div>
-                     <div class="category-name">Chicken</div>
+                     <div class="top-rated-name"> Ashraf Farghaly</div>
                  </div>
                  
-                 <div class="category-card">
-                     <div class="category-icon">
-                         <i class="fas fa-leaf"></i>
+                 <div class="top-rated-card">
+                     <div class="restaurant-logo">
+                         <img src="images/mycorner.png" alt="My corner" class="logo-img">
                      </div>
-                     <div class="category-name">Healthy</div>
-                 </div>
-                 
-                 <div class="category-card">
-                     <div class="category-icon">
-                         <i class="fas fa-coffee"></i>
-                     </div>
-                     <div class="category-name">Cafés</div>
-                 </div>
-                 
-                 <div class="category-card">
-                     <div class="category-icon">
-                         <i class="fas fa-bread-slice"></i>
-                     </div>
-                     <div class="category-name">Bakeries</div>
+                     <div class="top-rated-name">My Corner</div>
                  </div>
              </div>
          </section>
@@ -901,8 +967,6 @@ $hotDeals = [
                 </div>
                 
                 <div class="footer-column">
-                    <h3>Download Our App</h3>
-                    <p>Get the best experience with our mobile app</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -913,7 +977,7 @@ $hotDeals = [
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2023 miu-talabat. All rights reserved.</p>
+                <p>&copy; 2025 miu-talabat. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -946,6 +1010,18 @@ $hotDeals = [
             restaurantCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-5px)';
+                });
+                
+                card.addEventListener('mouseleave', function() {
+                    this.style.transform = 'translateY(0)';
+                });
+            });
+            
+            // Add hover effect for top rated restaurants
+            const topRatedCards = document.querySelectorAll('.top-rated-card');
+            topRatedCards.forEach(card => {
+                card.addEventListener('mouseenter', function() {
+                    this.style.transform = 'translateY(-8px)';
                 });
                 
                 card.addEventListener('mouseleave', function() {

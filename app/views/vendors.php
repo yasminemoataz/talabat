@@ -681,7 +681,7 @@
     <footer>
         <div class="footer-content">
             <div class="footer-section">
-                <h3>FoodOrder Pro</h3>
+                <h3>miu-talabat</h3>
                 <p>Streamlining restaurant orders with reliable partners and efficient management tools.</p>
             </div>
             <div class="footer-section">
@@ -699,20 +699,18 @@
                     <li><a href="#">Help Center</a></li>
                     <li><a href="#">Contact Us</a></li>
                     <li><a href="#">FAQs</a></li>
-                    <li><a href="#">API Documentation</a></li>
                 </ul>
             </div>
             <div class="footer-section">
                 <h3>Contact Info</h3>
                 <ul>
-                    <li><i class="fas fa-map-marker-alt"></i> 123 Restaurant Row, Food City</li>
-                    <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                    <li><i class="fas fa-envelope"></i> support@foodorderpro.com</li>
+                    <li><i class="fas fa-phone"></i> 01003819669</li>
+                    <li><i class="fas fa-envelope"></i> support@Miu-Talabat.com</li>
                 </ul>
             </div>
         </div>
         <div class="copyright">
-            &copy; 2023 FoodOrder Pro. All rights reserved.
+            &copy; 2025 miu-talabat. All rights reserved.
         </div>
     </footer>
 
