@@ -477,10 +477,9 @@
             <ul>
                 <li><a href="admin.php">Home</a></li>
                 <li><a href="manage-admin.php" class="active">Admin</a></li>
-                <li><a href="manage-category.php">Category</a></li>
-                <li><a href="manage-food.php">Food</a></li>
+                <li><a href="manage-vendors.php">Vendors</a></li>
                 <li><a href="manage-order.php">Order</a></li>
-                </ul>
+            </ul>
         </div>
          </div>
 

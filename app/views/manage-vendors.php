@@ -2,27 +2,15 @@
 // Include the MenuController to get real data
 require_once '../controllers/MenuController.php';
 $menuController = new MenuController();
-$allCategories = $menuController->getAllCategories();
-$allFoodItems = $menuController->getAllFoodItems();
-
-// Count items per category
-$categoryStats = [];
-foreach ($allCategories as $category) {
-    $count = 0;
-    foreach ($allFoodItems as $item) {
-        if ($item['category'] === $category) {
-            $count++;
-        }
-    }
-    $categoryStats[$category] = $count;
-}
+$allVendors = $menuController->getAllVendors();
+$allMenuData = $menuController->getAllMenuData();
 ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Categories - Miu-Talabat Admin</title>
+    <title>Manage Vendors - Miu-Talabat Admin</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         :root {
@@ -144,8 +132,8 @@ foreach ($allCategories as $category) {
             font-size: 16px;
         }
 
-        /* Category management styles */
-        .category-management {
+        /* Vendor management styles */
+        .vendor-management {
             background: var(--white);
             padding: 25px;
             border-radius: 12px;
@@ -160,7 +148,7 @@ foreach ($allCategories as $category) {
             margin-bottom: 20px;
         }
 
-        .add-category-btn {
+        .add-vendor-btn {
             background: var(--primary-red);
             color: var(--white);
             border: none;
@@ -176,13 +164,13 @@ foreach ($allCategories as $category) {
             margin-bottom: 20px;
         }
 
-        .add-category-btn:hover {
+        .add-vendor-btn:hover {
             background: var(--dark-red);
             transform: translateY(-2px);
         }
 
-        /* Category form styles */
-        .category-form {
+        /* Vendor form styles */
+        .vendor-form {
             background: #f9f9f9;
             padding: 20px;
             border-radius: 8px;
@@ -190,7 +178,7 @@ foreach ($allCategories as $category) {
             display: none;
         }
 
-        .category-form.active {
+        .vendor-form.active {
             display: block;
         }
 
@@ -269,30 +257,36 @@ foreach ($allCategories as $category) {
             background: #5a6268;
         }
 
-        /* Categories grid */
-        .categories-grid {
+        /* Vendors grid */
+        .vendors-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 25px;
             margin-top: 20px;
         }
 
-        .category-card {
+        .vendor-card {
             background: var(--white);
             border: 1px solid #e0e0e0;
             border-radius: 12px;
-            padding: 20px;
+            padding: 25px;
             box-shadow: var(--shadow);
             transition: var(--transition);
             position: relative;
         }
 
-        .category-card:hover {
+        .vendor-card:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
         }
 
-        .category-icon {
+        .vendor-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .vendor-logo {
             width: 60px;
             height: 60px;
             border-radius: 50%;
@@ -300,46 +294,77 @@ foreach ($allCategories as $category) {
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 15px;
+            margin-right: 15px;
             color: var(--primary-red);
             font-size: 24px;
+            font-weight: 600;
         }
 
-        .category-name {
-            font-size: 18px;
+        .vendor-info {
+            flex: 1;
+        }
+
+        .vendor-name {
+            font-size: 20px;
             font-weight: 600;
             color: var(--text-dark);
+            margin-bottom: 5px;
+        }
+
+        .vendor-category {
+            color: var(--text-light);
+            font-size: 14px;
             margin-bottom: 8px;
         }
 
-        .category-description {
+        .vendor-rating {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            color: #ffc107;
+            font-size: 14px;
+        }
+
+        .vendor-description {
             color: var(--text-light);
             font-size: 14px;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
             line-height: 1.5;
         }
 
-        .category-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 15px;
-            font-size: 14px;
+        .vendor-stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-bottom: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
         }
 
         .stat-item {
-            color: var(--text-light);
+            text-align: center;
         }
 
         .stat-number {
+            font-size: 18px;
             font-weight: 600;
             color: var(--primary-red);
+            display: block;
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-light);
+            margin-top: 2px;
         }
 
         .status-badge {
-            padding: 4px 8px;
-            border-radius: 12px;
+            padding: 6px 12px;
+            border-radius: 20px;
             font-size: 12px;
             font-weight: 500;
+            text-transform: uppercase;
             margin-bottom: 15px;
             display: inline-block;
         }
@@ -381,6 +406,15 @@ foreach ($allCategories as $category) {
 
         .btn-danger:hover {
             background: #c82333;
+        }
+
+        .btn-info {
+            background: #17a2b8;
+            color: var(--white);
+        }
+
+        .btn-info:hover {
+            background: #138496;
         }
 
         /* Footer styles */
@@ -473,7 +507,11 @@ foreach ($allCategories as $category) {
                 grid-template-columns: 1fr;
             }
             
-            .categories-grid {
+            .vendors-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .vendor-stats {
                 grid-template-columns: 1fr;
             }
         }
@@ -486,8 +524,7 @@ foreach ($allCategories as $category) {
             <ul>
                 <li><a href="admin.php">Home</a></li>
                 <li><a href="manage-admin.php">Admin</a></li>
-                <li><a href="manage-category.php" class="active">Category</a></li>
-                <li><a href="manage-food.php">Food</a></li>
+                <li><a href="manage-vendors.php" class="active">Vendors</a></li>
                 <li><a href="manage-order.php">Order</a></li>
             </ul>
         </div>
@@ -495,117 +532,123 @@ foreach ($allCategories as $category) {
 
     <!-- Main Content Section -->
     <div class="main-content">
-    <div class="wrapper">
+        <div class="wrapper">
             <!-- Page Header -->
             <div class="page-header text-center">
-                <h1 class="page-title">Manage Categories</h1>
-                <p class="page-subtitle">Organize your food items into categories for better management</p>
+                <h1 class="page-title">Manage Vendors</h1>
+                <p class="page-subtitle">Manage restaurant vendors and their information</p>
             </div>
 
-            <!-- Category Management Section -->
-            <div class="category-management">
-                <h2 class="section-title">Food Categories</h2>
+            <!-- Vendor Management Section -->
+            <div class="vendor-management">
+                <h2 class="section-title">Restaurant Vendors</h2>
                 
-                <button class="add-category-btn" onclick="toggleCategoryForm()">
+                <button class="add-vendor-btn" onclick="toggleVendorForm()">
                     <i class="fas fa-plus"></i>
-                    Add New Category
+                    Add New Vendor
                 </button>
 
-                <!-- Add/Edit Category Form -->
-                <div class="category-form" id="categoryForm">
-                    <h3>Add New Category</h3>
-                    <form id="categoryItemForm">
+                <!-- Add/Edit Vendor Form -->
+                <div class="vendor-form" id="vendorForm">
+                    <h3>Add New Vendor</h3>
+                    <form id="vendorItemForm">
                         <div class="form-row">
                             <div class="form-group">
-                                <label for="categoryName">Category Name *</label>
-                                <input type="text" id="categoryName" name="categoryName" required>
+                                <label for="vendorName">Vendor Name *</label>
+                                <input type="text" id="vendorName" name="vendorName" required>
                             </div>
                             <div class="form-group">
-                                <label for="categoryIcon">Icon Class</label>
-                                <select id="categoryIcon" name="categoryIcon">
-                                    <option value="fas fa-seedling">Seedling (فول)</option>
-                                    <option value="fas fa-french-fries">French Fries (بطاطس)</option>
-                                    <option value="fas fa-appetizer">Appetizer (مقبلات)</option>
-                                    <option value="fas fa-utensils">Utensils (كومبو)</option>
-                                    <option value="fas fa-egg">Egg (بيض)</option>
-                                    <option value="fas fa-fire">Fire (مشويات)</option>
-                                    <option value="fas fa-circle">Circle (طعمية)</option>
-                                    <option value="fas fa-bread-slice">Bread (سندوتشات)</option>
-                                    <option value="fas fa-Burger">Burger (برجر)</option>
-                                    <option value="fas fa-pasta">Pasta (مكرونة)</option>
-                                    <option value="fas fa-pizza-slice">Pizza (بيتزا)</option>
-                                    <option value="fas fa-child">Child (أطفال)</option>
-                                    <option value="fas fa-coffee">Coffee</option>
-                                    <option value="fas fa-leaf">Leaf (Mediterranean)</option>
+                                <label for="vendorCategory">Category *</label>
+                                <input type="text" id="vendorCategory" name="vendorCategory" required>
+                            </div>
+                        </div>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="vendorRating">Rating</label>
+                                <input type="number" id="vendorRating" name="vendorRating" step="0.1" min="0" max="5">
+                            </div>
+                            <div class="form-group">
+                                <label for="vendorStatus">Status</label>
+                                <select id="vendorStatus" name="vendorStatus">
+                                    <option value="active">Active</option>
+                                    <option value="inactive">Inactive</option>
                                 </select>
                             </div>
                         </div>
                         
                         <div class="form-group">
-                            <label for="categoryDescription">Description</label>
-                            <textarea id="categoryDescription" name="categoryDescription" placeholder="Describe this category..."></textarea>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label for="categoryStatus">Status</label>
-                            <select id="categoryStatus" name="categoryStatus">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
+                            <label for="vendorDescription">Description</label>
+                            <textarea id="vendorDescription" name="vendorDescription" placeholder="Describe this vendor..."></textarea>
                         </div>
                         
                         <div class="form-buttons">
-                            <button type="button" class="btn btn-secondary" onclick="cancelCategoryForm()">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save Category</button>
+                            <button type="button" class="btn btn-secondary" onclick="cancelVendorForm()">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Vendor</button>
                         </div>
                     </form>
                 </div>
 
-                <!-- Categories Grid -->
-                <div class="categories-grid">
-                    <?php 
-                    $categoryIcons = [
-                        'فول' => 'fas fa-seedling',
-                        'بطاطس' => 'fas fa-french-fries',
-                        'مقبلات' => 'fas fa-appetizer',
-                        'كومبو' => 'fas fa-utensils',
-                        'بيض' => 'fas fa-egg',
-                        'مشويات' => 'fas fa-fire',
-                        'طعمية' => 'fas fa-circle',
-                        'سندوتشات' => 'fas fa-bread-slice',
-                        'برجر' => 'fas fa-hamburger',
-                        'مكرونة' => 'fas fa-pasta',
-                        'بيتزا' => 'fas fa-pizza-slice',
-                        'أطفال' => 'fas fa-child',
-                        'Coffee' => 'fas fa-coffee',
-                        'Mediterranean Specials' => 'fas fa-leaf'
-                    ];
-                    
-                    foreach ($allCategories as $index => $category): 
-                        $icon = isset($categoryIcons[$category]) ? $categoryIcons[$category] : 'fas fa-utensils';
-                        $foodCount = $categoryStats[$category];
-                        $orderCount = rand(5, 50); // Sample order count for Phase 1
+                <!-- Vendors Grid -->
+                <div class="vendors-grid">
+                    <?php foreach ($allVendors as $vendorId => $vendor): 
+                        // Count menu items for this vendor
+                        $menuItems = $allMenuData['menus'][$vendorId] ?? [];
+                        $totalItems = 0;
+                        $totalCategories = count($menuItems);
+                        foreach ($menuItems as $category => $items) {
+                            $totalItems += count($items);
+                        }
+                        $orderCount = rand(20, 100); // Sample order count for Phase 1
                     ?>
-                    <div class="category-card">
-                        <div class="category-icon">
-                            <i class="<?php echo $icon; ?>"></i>
+                    <div class="vendor-card">
+                        <div class="vendor-header">
+                            <div class="vendor-logo">
+                                <?php echo strtoupper(substr($vendor['name'], 0, 2)); ?>
+                            </div>
+                            <div class="vendor-info">
+                                <div class="vendor-name"><?php echo htmlspecialchars($vendor['name']); ?></div>
+                                <div class="vendor-category"><?php echo htmlspecialchars($vendor['category']); ?></div>
+                                <div class="vendor-rating">
+                                    <i class="fas fa-star"></i>
+                                    <?php echo $vendor['rating']; ?>
+                                </div>
+                            </div>
                         </div>
-                        <div class="category-name"><?php echo htmlspecialchars($category); ?></div>
-                        <div class="category-description">Food items in <?php echo htmlspecialchars($category); ?> category</div>
-                        <div class="category-stats">
+                        
+                        <div class="vendor-description">
+                            <?php echo htmlspecialchars($vendor['description']); ?>
+                        </div>
+                        
+                        <div class="vendor-stats">
                             <div class="stat-item">
-                                <span class="stat-number"><?php echo $foodCount; ?></span> Foods
+                                <span class="stat-number"><?php echo $totalCategories; ?></span>
+                                <div class="stat-label">Categories</div>
                             </div>
                             <div class="stat-item">
-                                <span class="stat-number"><?php echo $orderCount; ?></span> Orders
+                                <span class="stat-number"><?php echo $totalItems; ?></span>
+                                <div class="stat-label">Menu Items</div>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number"><?php echo $orderCount; ?></span>
+                                <div class="stat-label">Orders</div>
+                            </div>
+                            <div class="stat-item">
+                                <span class="stat-number"><?php echo $vendor['rating']; ?></span>
+                                <div class="stat-label">Rating</div>
                             </div>
                         </div>
+                        
                         <span class="status-badge status-active">Active</span>
+                        
                         <div class="action-buttons">
-                            <button class="btn btn-warning btn-sm" onclick="editCategory(<?php echo $index + 1; ?>)">
+                            <button class="btn btn-info btn-sm" onclick="viewVendorDetails('<?php echo $vendorId; ?>')">
+                                <i class="fas fa-eye"></i> View
+                            </button>
+                            <button class="btn btn-warning btn-sm" onclick="editVendor('<?php echo $vendorId; ?>')">
                                 <i class="fas fa-edit"></i> Edit
                             </button>
-                            <button class="btn btn-danger btn-sm" onclick="deleteCategory(<?php echo $index + 1; ?>)">
+                            <button class="btn btn-danger btn-sm" onclick="deleteVendor('<?php echo $vendorId; ?>')">
                                 <i class="fas fa-trash"></i> Delete
                             </button>
                         </div>
@@ -663,44 +706,49 @@ foreach ($allCategories as $category) {
             
             <div class="footer-bottom">
                 <p>&copy; 2025 miu-talabat. All rights reserved.</p>
-    </div>
-</div>
+            </div>
+        </div>
     </footer>
 
     <script>
-        function toggleCategoryForm() {
-            const form = document.getElementById('categoryForm');
+        function toggleVendorForm() {
+            const form = document.getElementById('vendorForm');
             form.classList.toggle('active');
         }
 
-        function cancelCategoryForm() {
-            const form = document.getElementById('categoryForm');
+        function cancelVendorForm() {
+            const form = document.getElementById('vendorForm');
             form.classList.remove('active');
-            document.getElementById('categoryItemForm').reset();
+            document.getElementById('vendorItemForm').reset();
         }
 
-        function editCategory(id) {
+        function viewVendorDetails(vendorId) {
+            // In Phase 2, this will show detailed vendor information
+            alert('View vendor details functionality will be implemented in Phase 2 with database integration');
+        }
+
+        function editVendor(vendorId) {
             // In Phase 2, this will populate the form with existing data
             alert('Edit functionality will be implemented in Phase 2 with database integration');
         }
 
-        function deleteCategory(id) {
-            if (confirm('Are you sure you want to delete this category? This will also affect all foods in this category.')) {
+        function deleteVendor(vendorId) {
+            if (confirm('Are you sure you want to delete this vendor? This will also delete all associated menu items.')) {
                 // In Phase 2, this will delete from database
                 alert('Delete functionality will be implemented in Phase 2 with database integration');
             }
         }
 
         // Form submission handler
-        document.getElementById('categoryItemForm').addEventListener('submit', function(e) {
+        document.getElementById('vendorItemForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
             // In Phase 2, this will save to database
-            alert('Category saved! (Database integration will be added in Phase 2)');
+            alert('Vendor saved! (Database integration will be added in Phase 2)');
             
             // Reset form and hide it
             this.reset();
-            document.getElementById('categoryForm').classList.remove('active');
+            document.getElementById('vendorForm').classList.remove('active');
         });
     </script>
 </body>

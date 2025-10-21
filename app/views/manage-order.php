@@ -520,8 +520,7 @@
             <ul>
                 <li><a href="admin.php">Home</a></li>
                 <li><a href="manage-admin.php">Admin</a></li>
-                <li><a href="manage-category.php">Category</a></li>
-                <li><a href="manage-food.php">Food</a></li>
+                <li><a href="manage-vendors.php">Vendors</a></li>
                 <li><a href="manage-order.php" class="active">Order</a></li>
             </ul>
         </div>

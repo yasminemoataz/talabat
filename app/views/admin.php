@@ -371,8 +371,7 @@ $stats = $menuController->getAdminStats();
             <ul>
                 <li><a href="admin.php" class="active">Home</a></li>
                 <li><a href="manage-admin.php">Admin</a></li>
-                <li><a href="manage-category.php">Category</a></li>
-                <li><a href="manage-food.php">Food</a></li>
+                <li><a href="manage-vendors.php">Vendors</a></li>
                 <li><a href="manage-order.php">Order</a></li>
             </ul>
         </div>
@@ -426,13 +425,13 @@ $stats = $menuController->getAdminStats();
             <div class="quick-actions">
                 <h2 class="section-title">Quick Actions</h2>
                 <div class="actions-grid">
-                    <a href="manage-food.php" class="action-btn">
+                    <a href="manage-vendors.php" class="action-btn">
                         <i class="fas fa-plus"></i>
-                        Add New Food
+                        Add New Vendor
                     </a>
-                    <a href="manage-category.php" class="action-btn">
-                        <i class="fas fa-folder-plus"></i>
-                        Add New Category
+                    <a href="manage-vendors.php" class="action-btn">
+                        <i class="fas fa-store"></i>
+                        Manage Vendors
                     </a>
                     <a href="manage-order.php" class="action-btn">
                         <i class="fas fa-eye"></i>
