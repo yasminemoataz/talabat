@@ -421,32 +421,28 @@ $stats = $menuController->getAdminStats();
                 </div>
             </div>
 
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <h2 class="section-title">Quick Actions</h2>
-                 <div class="actions-grid">
--                    <a href="manage-vendors.php" class="action-btn">
-+                    <a href="index.php?page=managevendors" class="action-btn">
-                         <i class="fas fa-plus"></i>
-                         Add New Vendor
-                     </a>
--                    <a href="manage-vendors.php" class="action-btn">
-+                    <a href="index.php?page=managevendors" class="action-btn">
-                         <i class="fas fa-store"></i>
-                         Manage Vendors
-                     </a>
--                    <a href="manage-order.php" class="action-btn">
-+                    <a href="index.php?page=manageorder" class="action-btn">
-                         <i class="fas fa-eye"></i>
-                         View Orders
-                     </a>
--                    <a href="manage-admin.php" class="action-btn">
-+                    <a href="index.php?page=manageadmin" class="action-btn">
-                         <i class="fas fa-user-plus"></i>
-                         Add Admin
-                     </a>
-             </div>
-            </div>
+           <!-- Quick Actions -->
+<div class="quick-actions">
+    <h2 class="section-title">Quick Actions</h2>
+    <div class="actions-grid">
+        <a href="index.php?page=managevendors" class="action-btn">
+            <i class="fas fa-plus"></i>
+            Add New Vendor
+        </a>
+        <a href="index.php?page=managevendors" class="action-btn">
+            <i class="fas fa-store"></i>
+            Manage Vendors
+        </a>
+        <a href="index.php?page=manageorder" class="action-btn">
+            <i class="fas fa-eye"></i>
+            View Orders
+        </a>
+        <a href="index.php?page=manageadmin" class="action-btn">
+            <i class="fas fa-user-plus"></i>
+            Add Admin
+        </a>
+    </div>
+</div>
 
             <!-- Recent Activity -->
             <div class="recent-activity">
