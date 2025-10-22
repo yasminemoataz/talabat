@@ -1,6 +1,6 @@
 <?php
 // Include the MenuController to get real data
-require_once '../controllers/MenuController.php';
+require_once __DIR__ . '/../controllers/MenuController.php';
 $menuController = new MenuController();
 $allVendors = $menuController->getAllVendors();
 $allMenuData = $menuController->getAllMenuData();

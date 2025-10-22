@@ -1,3 +1,6 @@
+<?php
+// This file is directly included by the controller, no need to include the controller here
+?>
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -475,10 +478,10 @@
          <div class="menu text-center">
         <div class="wrapper">
             <ul>
-                <li><a href="admin.php">Home</a></li>
-                <li><a href="manage-admin.php" class="active">Admin</a></li>
-                <li><a href="manage-vendors.php">Vendors</a></li>
-                <li><a href="manage-order.php">Order</a></li>
+                <li><a href="?page=admin">Home</a></li>
+                <li><a href="?page=manageadmin" class="active">Admin</a></li>
+                <li><a href="?page=managevendors">Vendors</a></li>
+                <li><a href="?page=manageorder">Order</a></li>
             </ul>
         </div>
          </div>

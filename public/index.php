@@ -7,7 +7,9 @@ require_once __DIR__ . '/../app/controllers/MenuController.php';
 require_once __DIR__ . '/../app/controllers/VendorController.php';
 require_once __DIR__ . '/../app/controllers/CartController.php';
 require_once __DIR__ . '/../app/controllers/CheckoutController.php';
-
+require_once __DIR__ . '/../app/controllers/manageadminController.php';
+require_once __DIR__ . '/../app/controllers/manageorderController.php';
+require_once __DIR__ . '/../app/controllers/managevendorsController.php';
 $page = $_GET['page'] ?? 'home';
 $vendor = $_GET['vendor'] ?? '';
 
@@ -28,6 +30,15 @@ switch ($page) {
         break;
     case 'admin':
         $controller = new AdminController();
+        break;
+   case 'manageadmin':
+        $controller = new manageadminController();
+        break;
+    case 'managevendors':
+        $controller = new managevendorsController();
+        break;
+    case 'manageorder':
+        $controller = new manageorderController();
         break;
     case 'vendors':
         $controller = new VendorController();

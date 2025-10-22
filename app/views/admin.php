@@ -1,6 +1,6 @@
 <?php
 // Include the MenuController to get real data
-require_once '../controllers/MenuController.php';
+require_once(__DIR__ . '/../controllers/MenuController.php');
 $menuController = new MenuController();
 $stats = $menuController->getAdminStats();
 ?>
@@ -369,10 +369,10 @@ $stats = $menuController->getAdminStats();
     <div class="menu text-center">
         <div class="wrapper">
             <ul>
-                <li><a href="admin.php" class="active">Home</a></li>
-                <li><a href="manage-admin.php">Admin</a></li>
-                <li><a href="manage-vendors.php">Vendors</a></li>
-                <li><a href="manage-order.php">Order</a></li>
+               <li><a href="index.php?page=admin" class="active">Home</a></li>
+            <li><a href="index.php?page=manageadmin">Admin</a></li>
+            <li><a href="index.php?page=managevendors">Vendors</a></li>
+            <li><a href="index.php?page=manageorder">Order</a></li>
             </ul>
         </div>
     </div>

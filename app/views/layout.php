@@ -1,39 +1,3 @@
-
-<?php
-session_start();
-?>
-<?php
-$page = $_GET['page'] ?? 'dashboard';
-$pagePath = __DIR__ . "/pages/$page.php";
-if (!file_exists($pagePath)) {
-  $pagePath = __DIR__ . "/pages/dashboard.php";
-}
-
-$view = $_GET['view'] ?? 'navbar';
-
-$toggleLink = "?page=$page&view=" . ($view === 'navbar' ? 'sidebar' : 'navbar');
-
-$hotDeals = [
-    [
-        'title' => 'Cinnabon Special',
-        'discount' => '40% OFF',
-        'description' => 'Exclusive Cinnabon desserts and treats with amazing discounts',
-        'image' => 'images/oreo.webp'],
-    [
-        'title' => 'Cinnabon Delights',
-        'discount' => '30% OFF',
-        'description' => 'Freshly baked cinnamon rolls with irresistible offers',
-        'image' =>'images/cinna.webp'
-    ],
-    [
-        'title' => 'Tbs Exclusive',
-        'discount' => '25% OFF',
-        'description' => 'Sneak a peek at our unique Tbs specials and deals',
-        'image' => 'images/3rd.avif']
-];
-
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -536,86 +500,7 @@ $hotDeals = [
             font-size: 14px;
         }
 
-        /* Top Rated Restaurants Section Styles */
-        .top-rated-restaurants {
-            margin: 40px 0;
-        }
-
-        .top-rated-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 30px;
-        }
-
-        .top-rated-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-
-        .top-rated-card:hover {
-            transform: translateY(-8px);
-        }
-
-        .restaurant-logo {
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 15px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.12);
-            overflow: hidden;
-            position: relative;
-            background: white;
-            transition: all 0.3s ease;
-            border: 3px solid #fff;
-        }
-
-        .top-rated-card:hover .restaurant-logo {
-            box-shadow: 0 12px 25px rgba(0, 0, 0, 0.18);
-        }
-
-        .logo-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            border-radius: 50%;
-        }
-
-        .top-rated-name {
-            font-size: 18px;
-            font-weight: 600;
-            color: #333;
-        }
-
-        @media (max-width: 768px) {
-            .top-rated-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 25px;
-            }
-            
-            .restaurant-logo {
-                width: 120px;
-                height: 120px;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .top-rated-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 20px;
-            }
-            
-            .restaurant-logo {
-                width: 100px;
-                height: 100px;
-            }
-        }
+       
 
         footer {
             background: #2c2c2c;
@@ -810,147 +695,150 @@ $hotDeals = [
         <i class="far fa-user"></i>
         <span>Sign In</span>
     </a>
-<!--<a href="index.php?page=cart" class="action-btn cart-btn" aria-label="Shopping Cart">
-    <i class="fas fa-shopping-cart"></i>
-    <span class="visually-hidden">View Cart</span>
-        <div class="cart-count">0</div>
-    </a>
-</div>-->
-  <a href="?page=cart" class="action-btn cart-btn" style="text-decoration: none; color: inherit;">
-    <i class="fas fa-shopping-bag"></i>
-    <span>Cart</span>
-    <div class="cart-count">
-        <?php 
-            $cartCount = 0;
-            if (isset($_SESSION['cart'])) {
-                foreach ($_SESSION['cart'] as $item) {
-                    $cartCount += $item['quantity'];
-                }
-            }
-            echo $cartCount;
-        ?>
-    </div>
+    <button class="action-btn cart-btn">
+        <i class="fas fa-shopping-bag"></i>
+        <span>Cart</span>
+        <div class="cart-count">3</div>
+    </button>
+</div>
+
 
 
             </div>
             
             <div class="header-nav">
-    <div class="nav-links">
-        <a href="index.php" class="active">Home</a>
-        <a href="index.php?page=vendors">Vendors</a>      
-        <a href="#">Deals</a>
-    </div>
-</div>
+                <div class="nav-links">
+                    <a href="#" class="active">Home</a>
+                    <a href="?page=vendor&vendor=mycorner">Restaurants</a> 
+                    <a href="#">Deals</a>
+                    <a href="#">Fast Food</a>
+                    <a href="#">Desserts</a>
+                    <a href="#">Beverages</a>
+                </div>
+            </div>
         </div>
         
-         <div class="promo-banner">
-             <div class="container">
-                 <p>Great deals on your favorite meals! Order now for pickup</p>
-             </div>
-         </div>
+        <div class="promo-banner">
+            <div class="container">
+                <p>Great deals on your favorite meals! Order now</p>
+            </div>
+        </div>
     </header>
 
     <main class="container">
-         <section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/btatesandzalabya.jpg'); background-size: cover; background-position: center;">
-             <div class="hero-content">
-                 <h2>Craving something delicious?</h2>
-                 <p>Order your favorite meals and pick them up on campus</p>
-                 <button class="hero-btn">Order Now</button>
-             </div>
-         </section>
-         
-         <!-- Top Rated Restaurants Section -->
-         <section class="top-rated-restaurants">
-             <div class="section-header">
-                 <h2 class="section-title">Top Rated Restaurants</h2>
-                 <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
-             </div>
-             
-             <div class="top-rated-grid">
-                 <div class="top-rated-card">
-                     <div class="restaurant-logo">
-                         <img src="images/cinnabon.png" alt="cinnabon" class="logo-img">
-                     </div>
-                     <div class="top-rated-name">Cinnabon</div>
-                 </div>
-                 
-                 <div class="top-rated-card">
-                     <div class="restaurant-logo">
-                         <img src="images/tbslogo.jpg" alt="tbs" class="logo-img">
-                     </div>
-                     <div class="top-rated-name">TBS</div>
-                 </div>
-                 
-                 <div class="top-rated-card">
-                     <div class="restaurant-logo">
-                         <img src="images/farghalylogo.png" alt="farghaly" class="logo-img">
-                     </div>
-                     <div class="top-rated-name"> Ashraf Farghaly</div>
-                 </div>
-                 
-                 <div class="top-rated-card">
-                     <div class="restaurant-logo">
-                         <img src="images/mycorner.png" alt="My corner" class="logo-img">
-                     </div>
-                     <div class="top-rated-name">My Corner</div>
-                 </div>
-             </div>
-         </section>
- 
-         <section class="section">
-             <div class="section-header">
-                 <h2 class="section-title">Today's Hot Deals</h2>
-                 <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
-             </div>
-             
-             <div class="hot-deals-section">
-                 <div class="deals-grid">
-                     <div class="deal-card">
-                         <div class="deal-image">
-                             <img src="images/oreo.webp" alt="Cinnabon Special">
-                             <span class="deal-badge">40% OFF</span>
-                         </div>
-                         <div class="deal-content">
-                             <h3 class="deal-title">Cinnabon Special</h3>
-                             <p class="deal-description">Exclusive Cinnabon desserts and treats with amazing discounts</p>
-                             <button class="deal-button">Grab Deal</button>
-                         </div>
-                     </div>
-                     
-                     <div class="deal-card">
-                         <div class="deal-image">
-                             <img src="images/cinna.webp" alt="Cinnabon Delights">
-                             <span class="deal-badge">30% OFF</span>
-                         </div>
-                         <div class="deal-content">
-                             <h3 class="deal-title">Cinnabon Delights</h3>
-                             <p class="deal-description">Freshly baked cinnamon rolls with irresistible offers</p>
-                             <button class="deal-button">Grab Deal</button>
-                         </div>
-                     </div>
-                     
-                     <div class="deal-card">
-                         <div class="deal-image">
-                             <img src="images/3rd.avif" alt="Tbs Exclusive">
-                             <span class="deal-badge">25% OFF</span>
-                         </div>
-                         <div class="deal-content">
-                             <h3 class="deal-title">Tbs Exclusive</h3>
-                             <p class="deal-description">Sneak a peek at our unique Tbs specials and deals</p>
-                             <button class="deal-button">Grab Deal</button>
-                         </div>
-                     </div>
-                 </div>
-             </div>
-         </section>
+<section class="hero" style="background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('images/btatesandzalabya.jpg'); background-size: cover; background-position: center;">
+    <div class="hero-content">
+        <h2>Craving something delicious?</h2>
+        <p>Get your favorite meals delivered fast to your room</p>
+        <button class="hero-btn">Order Now</button>
+    </div>
+</section>
 
-         <!-- Page Content -->
-         <div class="page-content">
-             <?php include $pagePath; ?>
-         </div>
-    
-  
-     <footer>
+</section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Categories</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-pizza-slice"></i>
+                    </div>
+                    <div class="category-name">Fast Food</div>
+                </div>
+                
+             
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-ice-cream"></i>
+                    </div>
+                    <div class="category-name">Desserts</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-drumstick-bite"></i>
+                    </div>
+                    <div class="category-name">Chicken</div>
+                </div>
+               
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-leaf"></i>
+                    </div>
+                    <div class="category-name">Healthy</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-coffee"></i>
+                    </div>
+                    <div class="category-name">Cafés</div>
+                </div>
+                
+                <div class="category-card">
+                    <div class="category-icon">
+                        <i class="fas fa-bread-slice"></i>
+                    </div>
+                    <div class="category-name">Bakeries</div>
+                </div>
+            </div>
+        </section>
+
+        <section class="section">
+            <div class="section-header">
+                <h2 class="section-title">Today's Hot Deals</h2>
+                <a href="#" class="view-all">View All <i class="fas fa-chevron-right"></i></a>
+            </div>
+            
+            <div class="hot-deals-section">
+                <div class="deals-grid">
+                    <div class="deal-card">
+                        <div class="deal-image">
+                            <img src="images/oreo.webp" alt="Cinnabon Special">
+                            <span class="deal-badge">40% OFF</span>
+                        </div>
+                        <div class="deal-content">
+                            <h3 class="deal-title">Cinnabon Special</h3>
+                            <p class="deal-description">Exclusive Cinnabon desserts and treats with amazing discounts</p>
+                            <button class="deal-button">Grab Deal</button>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">
+                            <img src="images/cinna.webp" alt="Cinnabon Delights">
+                            <span class="deal-badge">30% OFF</span>
+                        </div>
+                        <div class="deal-content">
+                            <h3 class="deal-title">Cinnabon Delights</h3>
+                            <p class="deal-description">Freshly baked cinnamon rolls with irresistible offers</p>
+                            <button class="deal-button">Grab Deal</button>
+                        </div>
+                    </div>
+                    
+                    <div class="deal-card">
+                        <div class="deal-image">
+                            <img src="images/3rd.avif" alt="Tbs Exclusive">
+                            <span class="deal-badge">25% OFF</span>
+                        </div>
+                        <div class="deal-content">
+                            <h3 class="deal-title">Tbs Exclusive</h3>
+                            <p class="deal-description">Sneak a peek at our unique Tbs specials and deals</p>
+                            <button class="deal-button">Grab Deal</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+   
+
+    <footer>
         <div class="container">
             <div class="footer-content">
                 <div class="footer-column">
@@ -983,6 +871,8 @@ $hotDeals = [
                 </div>
                 
                 <div class="footer-column">
+                    <h3>Download Our App</h3>
+                    <p>Get the best experience with our mobile app</p>
                     <div class="social-links">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-twitter"></i></a>
@@ -993,7 +883,7 @@ $hotDeals = [
             </div>
             
             <div class="footer-bottom">
-                <p>&copy; 2025 miu-talabat. All rights reserved.</p>
+                <p>&copy; 2023 miu-talabat. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -1026,18 +916,6 @@ $hotDeals = [
             restaurantCards.forEach(card => {
                 card.addEventListener('mouseenter', function() {
                     this.style.transform = 'translateY(-5px)';
-                });
-                
-                card.addEventListener('mouseleave', function() {
-                    this.style.transform = 'translateY(0)';
-                });
-            });
-            
-            // Add hover effect for top rated restaurants
-            const topRatedCards = document.querySelectorAll('.top-rated-card');
-            topRatedCards.forEach(card => {
-                card.addEventListener('mouseenter', function() {
-                    this.style.transform = 'translateY(-8px)';
                 });
                 
                 card.addEventListener('mouseleave', function() {
