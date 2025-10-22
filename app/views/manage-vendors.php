@@ -519,13 +519,13 @@ $allMenuData = $menuController->getAllMenuData();
 </head>
 <body>
     <!-- Menu Section -->
-    <div class="menu text-center">
+  <div class="menu text-center">
         <div class="wrapper">
             <ul>
-                <li><a href="admin.php">Home</a></li>
-                <li><a href="manage-admin.php">Admin</a></li>
-                <li><a href="manage-vendors.php" class="active">Vendors</a></li>
-                <li><a href="manage-order.php">Order</a></li>
+               <li><a href="index.php?page=admin">Home</a></li>
+               <li><a href="index.php?page=manageadmin">Admin</a></li>
+               <li><a href="index.php?page=managevendors" class="active">Vendors</a></li>
+               <li><a href="index.php?page=manageorder">Order</a></li>
             </ul>
         </div>
     </div>

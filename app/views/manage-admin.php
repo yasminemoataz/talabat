@@ -478,10 +478,10 @@
          <div class="menu text-center">
         <div class="wrapper">
             <ul>
-                <li><a href="?page=admin">Home</a></li>
-                <li><a href="?page=manageadmin" class="active">Admin</a></li>
-                <li><a href="?page=managevendors">Vendors</a></li>
-                <li><a href="?page=manageorder">Order</a></li>
+                <li><a href="index.php?page=admin">Home</a></li>
+                <li><a href="index.php?page=manageadmin" class="active">Admin</a></li>
+                <li><a href="index.php?page=managevendors">Vendors</a></li>
+                <li><a href="index.php?page=manageorder">Order</a></li>
             </ul>
         </div>
          </div>

@@ -518,10 +518,10 @@
     <div class="menu text-center">
         <div class="wrapper">
             <ul>
-                <li><a href="admin.php">Home</a></li>
-                <li><a href="manage-admin.php">Admin</a></li>
-                <li><a href="manage-vendors.php">Vendors</a></li>
-                <li><a href="manage-order.php" class="active">Order</a></li>
+                 <li><a href="index.php?page=admin">Home</a></li>
+                 <li><a href="index.php?page=manageadmin">Admin</a></li>
+                 <li><a href="index.php?page=managevendors">Vendors</a></li>
+                 <li><a href="index.php?page=manageorder" class="active">Order</a></li>
             </ul>
         </div>
     </div>
