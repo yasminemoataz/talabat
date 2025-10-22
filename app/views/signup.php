@@ -96,6 +96,7 @@
     .field{
       width:100%;
       margin-bottom:12px;
+      position: relative;
     }
     input[type="text"], input[type="email"], input[type="password"], input[type="tel"]{
       width:100%;
@@ -110,6 +111,89 @@
     input[type="text"]:focus, input[type="email"]:focus, input[type="password"]:focus, input[type="tel"]:focus{
       border-color:var(--accent);
       box-shadow:0 6px 20px rgba(255,0,0,0.1);
+    }
+
+    /* Validation styles */
+    input.valid {
+      border-color: #4CAF50;
+    }
+    
+    input.invalid {
+      border-color: #f44336;
+    }
+    
+    .validation-message {
+      font-size: 12px;
+      margin-top: 4px;
+      display: block;
+      min-height: 16px;
+    }
+    
+    .validation-message.error {
+      color: #f44336;
+    }
+    
+    .validation-message.success {
+      color: #4CAF50;
+    }
+    
+    .password-strength {
+      margin-top: 8px;
+      height: 6px;
+      border-radius: 3px;
+      background-color: #eee;
+      overflow: hidden;
+    }
+    
+    .password-strength-meter {
+      height: 100%;
+      width: 0;
+      transition: width 0.3s, background-color 0.3s;
+    }
+    
+    .strength-weak {
+      background-color: #f44336;
+      width: 25%;
+    }
+    
+    .strength-fair {
+      background-color: #ff9800;
+      width: 50%;
+    }
+    
+    .strength-good {
+      background-color: #ffc107;
+      width: 75%;
+    }
+    
+    .strength-strong {
+      background-color: #4CAF50;
+      width: 100%;
+    }
+    
+    .password-requirements {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 8px;
+    }
+    
+    .requirement {
+      display: flex;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+    
+    .requirement-icon {
+      margin-right: 6px;
+      font-size: 14px;
+    }
+    
+    .requirement.met {
+      color: #4CAF50;
+    }
+    
+    .requirement.unmet {
+      color: var(--muted);
     }
 
     .terms {
@@ -149,6 +233,13 @@
     .btn:hover {
       transform: translateY(-1px);
       box-shadow: 0 4px 12px rgba(255, 0, 0, 0.2);
+    }
+
+    .btn:disabled {
+      background: #ccc;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
     }
 
     .minor{
@@ -192,32 +283,6 @@
       font-weight:700;
       font-size:18px;
     }
-
-    .password-strength {
-      margin-top: 4px;
-      font-size: 12px;
-      display: flex;
-      align-items: center;
-      gap: 6px;
-    }
-
-    .strength-bar {
-      flex: 1;
-      height: 4px;
-      background: #eee;
-      border-radius: 2px;
-      overflow: hidden;
-    }
-
-    .strength-fill {
-      height: 100%;
-      width: 0%;
-      transition: width 0.3s, background 0.3s;
-    }
-
-    .strength-weak { width: 33%; background: #ff4444; }
-    .strength-medium { width: 66%; background: #ffaa00; }
-    .strength-strong { width: 100%; background: #00c851; }
 
     @media(min-width:720px){
       .hero{ padding:42px 32px 18px; }
@@ -264,6 +329,7 @@
           <div class="field">
             <label for="email" style="display:none;">Email</label>
             <input id="email" name="email" type="email" placeholder="Email address" required />
+            <span class="validation-message" id="emailMessage"></span>
           </div>
 
           <div class="field">
@@ -275,17 +341,15 @@
             <label for="password" style="display:none;">Password</label>
             <input id="password" name="password" type="password" placeholder="Password" required />
             <div class="password-strength">
-              <span>Strength:</span>
-              <div class="strength-bar">
-                <div class="strength-fill" id="strengthFill"></div>
-              </div>
-              <span id="strengthText">-</span>
+              <div class="password-strength-meter" id="passwordStrength"></div>
             </div>
+            <span class="validation-message" id="passwordMessage"></span>
           </div>
 
           <div class="field">
             <label for="confirmPassword" style="display:none;">Confirm Password</label>
             <input id="confirmPassword" name="confirmPassword" type="password" placeholder="Confirm password" required />
+            <span class="validation-message" id="confirmPasswordMessage"></span>
           </div>
 
           <div class="terms">
@@ -295,7 +359,7 @@
             </label>
           </div>
 
-          <button type="submit" class="btn">Create Account</button>
+          <button type="submit" class="btn" id="submitBtn">Create Account</button>
         </form>
 
         <div class="minor">
@@ -312,61 +376,193 @@
   </div>
 
   <script>
-    // Password strength indicator
-    const passwordInput = document.getElementById('password');
-    const strengthFill = document.getElementById('strengthFill');
-    const strengthText = document.getElementById('strengthText');
-
-    passwordInput.addEventListener('input', function() {
-      const password = this.value;
-      let strength = 0;
+    document.addEventListener('DOMContentLoaded', function() {
+      const emailInput = document.getElementById('email');
+      const passwordInput = document.getElementById('password');
+      const confirmPasswordInput = document.getElementById('confirmPassword');
+      const submitBtn = document.getElementById('submitBtn');
+      const emailMessage = document.getElementById('emailMessage');
+      const passwordMessage = document.getElementById('passwordMessage');
+      const confirmPasswordMessage = document.getElementById('confirmPasswordMessage');
+      const passwordStrength = document.getElementById('passwordStrength');
       
-      // Length check
-      if (password.length >= 8) strength += 1;
+      // Password requirement elements
+      const lengthReq = document.getElementById('lengthReq');
+      const uppercaseReq = document.getElementById('uppercaseReq');
+      const lowercaseReq = document.getElementById('lowercaseReq');
+      const numberReq = document.getElementById('numberReq');
+      const specialReq = document.getElementById('specialReq');
       
-      // Contains lowercase
-      if (/[a-z]/.test(password)) strength += 1;
+      // Email validation
+      emailInput.addEventListener('input', validateEmail);
+      emailInput.addEventListener('blur', validateEmail);
       
-      // Contains uppercase
-      if (/[A-Z]/.test(password)) strength += 1;
+      // Password validation
+      passwordInput.addEventListener('input', function() {
+        validatePassword();
+        updatePasswordStrength();
+        validatePasswordMatch();
+      });
       
-      // Contains numbers
-      if (/[0-9]/.test(password)) strength += 1;
+      // Confirm password validation
+      confirmPasswordInput.addEventListener('input', validatePasswordMatch);
       
-      // Contains special characters
-      if (/[^A-Za-z0-9]/.test(password)) strength += 1;
-
-      // Update strength indicator
-      strengthFill.className = 'strength-fill';
-      if (password.length === 0) {
-        strengthText.textContent = '-';
-      } else if (strength <= 2) {
-        strengthFill.classList.add('strength-weak');
-        strengthText.textContent = 'Weak';
-      } else if (strength <= 4) {
-        strengthFill.classList.add('strength-medium');
-        strengthText.textContent = 'Medium';
-      } else {
-        strengthFill.classList.add('strength-strong');
-        strengthText.textContent = 'Strong';
+      // Form submission
+      document.getElementById('signupForm').addEventListener('submit', function(e) {
+        if (!validateForm()) {
+          e.preventDefault();
+        }
+      });
+      
+      function validateEmail() {
+        const email = emailInput.value.trim();
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        
+        if (email === '') {
+          setValidationState(emailInput, emailMessage, false, 'Email is required');
+          return false;
+        } else if (!emailRegex.test(email)) {
+          setValidationState(emailInput, emailMessage, false, 'Please enter a valid email address');
+          return false;
+        } else {
+          setValidationState(emailInput, emailMessage, true, 'Email looks good!');
+          return true;
+        }
       }
-    });
-
-    // Form validation
-    document.getElementById('signupForm').addEventListener('submit', function(e) {
-      const password = document.getElementById('password').value;
-      const confirmPassword = document.getElementById('confirmPassword').value;
       
-      if (password !== confirmPassword) {
-        e.preventDefault();
-        alert('Passwords do not match!');
-        return false;
+      function validatePassword() {
+        const password = passwordInput.value;
+        let isValid = true;
+        let message = '';
+        
+        // Check minimum length
+        if (password.length < 8) {
+          isValid = false;
+          message = 'Password must be at least 8 characters';
+        }
+        
+        // Check for uppercase
+        if (!/(?=.*[A-Z])/.test(password)) {
+          isValid = false;
+          if (message) message += ', uppercase letter';
+          else message = 'Password must contain at least one uppercase letter';
+        }
+        
+        // Check for lowercase
+        if (!/(?=.*[a-z])/.test(password)) {
+          isValid = false;
+          if (message) message += ', lowercase letter';
+          else message = 'Password must contain at least one lowercase letter';
+        }
+        
+        // Check for number
+        if (!/(?=.*\d)/.test(password)) {
+          isValid = false;
+          if (message) message += ', number';
+          else message = 'Password must contain at least one number';
+        }
+        
+        // Check for special character
+        if (!/(?=.*[@$!%*?&])/.test(password)) {
+          isValid = false;
+          if (message) message += ', special character';
+          else message = 'Password must contain at least one special character';
+        }
+        
+        if (isValid) {
+          setValidationState(passwordInput, passwordMessage, true, 'Password meets all requirements');
+        } else {
+          setValidationState(passwordInput, passwordMessage, false, message);
+        }
+        
+        return isValid;
       }
       
-      if (!document.getElementById('terms').checked) {
-        e.preventDefault();
-        alert('Please agree to the Terms of Service and Privacy Policy');
-        return false;
+      function updatePasswordStrength() {
+        const password = passwordInput.value;
+        let strength = 0;
+        
+        // Update requirement indicators
+        updateRequirement(lengthReq, password.length >= 8);
+        updateRequirement(uppercaseReq, /(?=.*[A-Z])/.test(password));
+        updateRequirement(lowercaseReq, /(?=.*[a-z])/.test(password));
+        updateRequirement(numberReq, /(?=.*\d)/.test(password));
+        updateRequirement(specialReq, /(?=.*[@$!%*?&])/.test(password));
+        
+        // Calculate strength
+        if (password.length >= 8) strength += 1;
+        if (/(?=.*[A-Z])/.test(password)) strength += 1;
+        if (/(?=.*[a-z])/.test(password)) strength += 1;
+        if (/(?=.*\d)/.test(password)) strength += 1;
+        if (/(?=.*[@$!%*?&])/.test(password)) strength += 1;
+        
+        // Update strength meter
+        passwordStrength.className = 'password-strength-meter';
+        if (strength <= 1) {
+          passwordStrength.classList.add('strength-weak');
+        } else if (strength <= 2) {
+          passwordStrength.classList.add('strength-fair');
+        } else if (strength <= 3) {
+          passwordStrength.classList.add('strength-good');
+        } else {
+          passwordStrength.classList.add('strength-strong');
+        }
+      }
+      
+      function updateRequirement(element, isMet) {
+        if (isMet) {
+          element.classList.remove('unmet');
+          element.classList.add('met');
+          element.querySelector('.requirement-icon').textContent = '✓';
+        } else {
+          element.classList.remove('met');
+          element.classList.add('unmet');
+          element.querySelector('.requirement-icon').textContent = '•';
+        }
+      }
+      
+      function validatePasswordMatch() {
+        const password = passwordInput.value;
+        const confirmPassword = confirmPasswordInput.value;
+        
+        if (confirmPassword === '') {
+          setValidationState(confirmPasswordInput, confirmPasswordMessage, false, 'Please confirm your password');
+          return false;
+        } else if (password !== confirmPassword) {
+          setValidationState(confirmPasswordInput, confirmPasswordMessage, false, 'Passwords do not match');
+          return false;
+        } else {
+          setValidationState(confirmPasswordInput, confirmPasswordMessage, true, 'Passwords match');
+          return true;
+        }
+      }
+      
+      function setValidationState(input, messageElement, isValid, message) {
+        if (isValid) {
+          input.classList.remove('invalid');
+          input.classList.add('valid');
+          messageElement.textContent = message;
+          messageElement.className = 'validation-message success';
+        } else {
+          input.classList.remove('valid');
+          input.classList.add('invalid');
+          messageElement.textContent = message;
+          messageElement.className = 'validation-message error';
+        }
+      }
+      
+      function validateForm() {
+        const isEmailValid = validateEmail();
+        const isPasswordValid = validatePassword();
+        const isPasswordMatchValid = validatePasswordMatch();
+        const isTermsChecked = document.getElementById('terms').checked;
+        
+        if (!isTermsChecked) {
+          alert('Please agree to the Terms of Service and Privacy Policy');
+          return false;
+        }
+        
+        return isEmailValid && isPasswordValid && isPasswordMatchValid;
       }
     });
   </script>
