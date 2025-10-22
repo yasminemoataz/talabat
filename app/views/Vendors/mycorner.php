@@ -564,11 +564,9 @@ if (session_status() == PHP_SESSION_NONE) {
             <div class="header-nav">
                 <div class="nav-links">
                     <a href="?" class="">Home</a>
-                    <a href="?page=vendor&vendor=mycorner" class="active">Restaurants</a> 
+                    <a href="?page=vendor&vendor=mycorner" class="active">Vendors</a> 
                     <a href="#">Deals</a>
-                    <a href="#">Fast Food</a>
-                    <a href="#">Desserts</a>
-                    <a href="#">Beverages</a>
+                   
                 </div>
             </div>
         </div>

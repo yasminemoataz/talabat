@@ -420,13 +420,13 @@
             <nav>
                 <ul>
                     <li><a href="index.php">Home</a></li>
-                    <li><a href="#" class="active">vendors</a></li>
-                   
+                    <li><a href="#" class="active">Vendors</a></li>
+                    <li><a href="#">Deals</a></li>
                 </ul>
             </nav>
             <div class="user-actions">
                 <button><i class="fas fa-bell"></i></button>
-                <button><i class="fas fa-user"></i> Restaurant Manager</button>
+                
             </div>
         </div>
     </header>
