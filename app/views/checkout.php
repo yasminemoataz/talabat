@@ -261,7 +261,7 @@ foreach ($cartItems as $item) {
                 <div class="step">3. Confirmation</div>
             </div>
             
-            <form class="checkout-form" id="checkoutForm">
+            <form class="checkout-form" id="checkoutForm" method="POST" action="index.php?page=checkout">
                 <!-- Personal Information Section -->
                 <div class="form-section">
                     <h2 class="section-title">Personal Information</h2>
@@ -400,32 +400,32 @@ foreach ($cartItems as $item) {
             });
         });
         
-        // Form submission
+        // Form submission: validate then submit to server
         document.getElementById('checkoutForm').addEventListener('submit', function(e) {
             e.preventDefault();
-            
+
             // Validate payment method selected
             const paymentMethod = document.getElementById('paymentMethod').value;
             if (!paymentMethod) {
                 alert('Please select a payment method');
                 return;
             }
-            
+
             // If credit card selected, validate card fields
             if (paymentMethod === 'credit') {
                 const cardNumber = document.getElementById('cardNumber').value;
                 const cardName = document.getElementById('cardName').value;
                 const expiryDate = document.getElementById('expiryDate').value;
                 const cvv = document.getElementById('cvv').value;
-                
+
                 if (!cardNumber || !cardName || !expiryDate || !cvv) {
                     alert('Please fill in all card details');
                     return;
                 }
             }
-            
-            // Redirect to OTP page
-            window.location.href = '?page=otp';
+
+            // Submit the form to server. Server will redirect to OTP or Order Confirmation.
+            this.submit();
         });
         
         // Format card number input

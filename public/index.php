@@ -11,6 +11,7 @@ require_once __DIR__ . '/../app/controllers/manageadminController.php';
 require_once __DIR__ . '/../app/controllers/manageorderController.php';
 require_once __DIR__ . '/../app/controllers/managevendorsController.php';
 require_once __DIR__ . '/../app/controllers/OtpController.php';
+require_once __DIR__ . '/../app/controllers/OrderConfirmationController.php';
 $page = $_GET['page'] ?? 'home';
 $vendor = $_GET['vendor'] ?? '';
 
@@ -51,8 +52,11 @@ switch ($page) {
         $controller = new CheckoutController();
         break;
           case 'otp':
-        $controller = new OTPController();
+            $controller = new OtpController();
         break;
+        case 'orderconfirmation':
+            $controller = new OrderConfirmationController();
+            break;
     default:
         $controller = new HomeController();
         break;
