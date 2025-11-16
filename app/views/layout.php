@@ -698,7 +698,6 @@
    <a href="index.php?page=cart" class="action-btn">
     <i class="fas fa-shopping-bag"></i>
     <span>Cart</span>
-    <div class="cart-count">3</div>
 </a>
 </div>
 

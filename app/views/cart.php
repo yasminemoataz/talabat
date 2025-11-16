@@ -468,24 +468,9 @@ foreach ($cartItems as $item) {
                 <div class="cart-summary-box">
                     <h2 class="summary-title">Order Summary</h2>
                     
-                    <div class="summary-row">
-                        <span>Subtotal:</span>
-                        <span>$<?php echo number_format($total, 2); ?></span>
-                    </div>
-                    
-                    <div class="summary-row">
-                        <span>Delivery Fee:</span>
-                        <span>$2.99</span>
-                    </div>
-                    
-                    <div class="summary-row">
-                        <span>Service Fee:</span>
-                        <span>$1.50</span>
-                    </div>
-                    
                     <div class="summary-row total-row">
                         <span>Total Amount:</span>
-                        <span>$<?php echo number_format($total + 2.99 + 1.50, 2); ?></span>
+                        <span>EGP<?php echo number_format($total, 2); ?></span>
                     </div>
 
                     <!-- Action Buttons -->
