@@ -1,480 +1,51 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Restaurant Vendors | FoodOrder Pro</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
+<?php 
+$pageTitle = 'Vendors';
+$pagekey = 'vendors';
+include 'header.php'; ?>
+<link rel="stylesheet" href="styles/vendors.css">
 
-        :root {
-            --primary-red: #d32f2f;
-            --dark-red: #b71c1c;
-            --light-red: #ff6659;
-            --accent-red: #ff5252;
-            --light-bg: #f9f5f5;
-            --text-dark: #333;
-            --text-light: #fff;
-            --border-color: #e0e0e0;
-            --card-shadow: 0 4px 12px rgba(211, 47, 47, 0.15);
-        }
+<main class="container">
+    <div class="page-header">
+        <h2>Our Restaurants</h2>
+        <p>Explore delicious food from our partner restaurants</p>
+    </div>
 
-        body {
-            background-color: var(--light-bg);
-            color: var(--text-dark);
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(to right, var(--dark-red), var(--primary-red));
-            color: var(--text-light);
-            padding: 1rem 2rem;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-        }
-
-        .header-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .logo h1 {
-            font-size: 1.8rem;
-            font-weight: 700;
-        }
-
-        .logo i {
-            font-size: 2rem;
-        }
-
-        nav ul {
-            display: flex;
-            list-style: none;
-            gap: 2rem;
-        }
-
-        nav a {
-            color: var(--text-light);
-            text-decoration: none;
-            font-weight: 500;
-            transition: opacity 0.3s;
-            padding: 0.5rem 0;
-            position: relative;
-        }
-
-        nav a.active:after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: white;
-        }
-
-        nav a:hover {
-            opacity: 0.8;
-        }
-
-        .user-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .user-actions button {
-            background: rgba(255, 255, 255, 0.2);
-            border: none;
-            color: var(--text-light);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .user-actions button:hover {
-            background: rgba(255, 255, 255, 0.3);
-        }
-
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 2rem auto;
-            padding: 0 1rem;
-        }
-
-        .page-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            gap: 2rem;
-        }
-
-        .page-header h2 {
-            font-size: 2rem;
-            color: var(--dark-red);
-            font-weight: 700;
-        }
-
-        .search-filter-container {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .search-bar {
-            display: flex;
-            flex: 1;
-            min-width: 300px;
-        }
-
-        .search-bar input {
-            padding: 0.8rem 1rem;
-            border: 1px solid var(--border-color);
-            border-radius: 4px 0 0 4px;
-            width: 100%;
-            font-size: 1rem;
-        }
-
-        .search-bar button {
-            background-color: var(--primary-red);
-            color: var(--text-light);
-            border: none;
-            border-radius: 0 4px 4px 0;
-            padding: 0 1.5rem;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .search-bar button:hover {
-            background-color: var(--dark-red);
-        }
-
-        .filter-options {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-        }
-
-        .filter-btn {
-            background: white;
-            border: 1px solid var(--border-color);
-            padding: 0.7rem 1.2rem;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-
-        .filter-btn:hover, .filter-btn.active {
-            background-color: var(--primary-red);
-            color: white;
-            border-color: var(--primary-red);
-        }
-
-        /* Square Restaurant Grid */
-        .restaurant-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
-        }
-
-        .restaurant-card {
-            background: white;
-            border-radius: 8px;
-            overflow: hidden;
-            box-shadow: var(--card-shadow);
-            transition: transform 0.3s, box-shadow 0.3s;
-            display: flex;
-            flex-direction: column;
-            min-height: 400px;
-        }
-
-        .restaurant-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15);
-        }
-
-        .restaurant-image {
-            height: 45%; /* Adjusted for square layout */
-            background-color: var(--primary-red);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 2.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .restaurant-image img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .restaurant-image i {
-            display: none;
-        }
-
-        .restaurant-status {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            background: rgba(0, 0, 0, 0.7);
-            color: white;
-            padding: 0.3rem 0.7rem;
-            border-radius: 4px;
-            font-size: 0.8rem;
-        }
-
-        .status-open {
-            background-color: #4CAF50;
-            color: white;
-        }
-
-        .status-closed {
-            background-color: #757575;
-        }
-
-        .restaurant-info {
-            padding: 1.2rem;
-            flex-grow: 1;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
-
-        .restaurant-name {
-            font-size: 1.2rem;
-            font-weight: 600;
-            margin-bottom: 0.5rem;
-            color: var(--dark-red);
-        }
-
-        .restaurant-category {
-            color: var(--primary-red);
-            font-weight: 500;
-            margin-bottom: 0.8rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-        }
-
-        .restaurant-description {
-            color: #666;
-            margin-bottom: 1rem;
-            line-height: 1.4;
-            font-size: 0.9rem;
-            flex-grow: 1;
-        }
-
-        .restaurant-stats {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 1.2rem;
-            font-size: 0.85rem;
-        }
-
-        .restaurant-stats span {
-            display: flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .restaurant-actions {
-            display: flex;
-        }
-
-        .restaurant-actions .btn-primary {
-            flex: 1;
-            padding: 0.7rem;
-            border: none;
-            border-radius: 4px;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s;
-            background-color: var(--primary-red);
-    color: white;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    font-size: 0.9rem;
-        }
-
-       
-
-        .btn-primary:hover {
-            background-color: var(--dark-red);
-              color: white;
-    text-decoration: none;
-
-        }
-
-        /* Footer */
-        footer {
-            background-color: #2c2c2c;
-            color: white;
-            padding: 2rem 1rem;
-            margin-top: 3rem;
-        }
-
-        .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 2rem;
-        }
-
-        .footer-section h3 {
-            color: var(--light-red);
-            margin-bottom: 1rem;
-            font-size: 1.2rem;
-        }
-
-        .footer-section ul {
-            list-style: none;
-        }
-
-        .footer-section ul li {
-            margin-bottom: 0.5rem;
-        }
-
-        .footer-section a {
-            color: #ddd;
-            text-decoration: none;
-            transition: color 0.3s;
-        }
-
-        .footer-section a:hover {
-            color: var(--light-red);
-        }
-
-        .copyright {
-            text-align: center;
-            margin-top: 2rem;
-            padding-top: 1rem;
-            border-top: 1px solid #444;
-            color: #aaa;
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                gap: 1rem;
-            }
-
-            nav ul {
-                gap: 1rem;
-            }
-
-            .page-header {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 1rem;
-            }
-
-            .search-bar {
-                min-width: 100%;
-            }
-
-            .restaurant-grid {
-                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            }
-        }
-
-        @media (max-width: 480px) {
-            .restaurant-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
-</head>
-<body>
-    <header>
-        <div class="header-container">
-            <div class="logo">
-                <i class="fas fa-utensils"></i>
-                <h1>miu-talabat</h1>
-            </div>
-            <nav>
-                <ul>
-                    <li><a href="index.php">Home</a></li>
-                    <li><a href="#" class="active">Vendors</a></li>
-                    <li><a href="#">Deals</a></li>
-                </ul>
-            </nav>
-            <div class="user-actions">
-                <button><i class="fas fa-bell"></i></button>
-                
-            </div>
+    <div class="search-filter-container">
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search restaurants...">
+            <button type="submit"><i class="fas fa-search"></i></button>
         </div>
-    </header>
-
-    <main class="container">
-        <div class="page-header">
-            <h2>Our Restaurant </h2>
-            <div class="search-bar">
-                <input type="text" placeholder="Search restaurants...">
-                <button><i class="fas fa-search"></i></button>
-            </div>
+        
+        <div class="filter-options">
+            <button class="filter-btn active" data-filter="all">All</button>
+            <button class="filter-btn" data-filter="fast-food">Fast Food</button>
+            <button class="filter-btn" data-filter="pizza">Pizza</button>
+            <button class="filter-btn" data-filter="chinese">Chinese</button>
         </div>
-
-        <div class="search-filter-container">
-            <div class="filter-options">
-                <button class="filter-btn active">All</button>
-                <button class="filter-btn">Desserts</button>
-                <button class="filter-btn">oriental Food</button>
-                <button class="filter-btn">Coffee</button>
-                <button class="filter-btn">Beverages & Snacks</button>
-                <button class="filter-btn">Fastfood</button>
+    </div>
+    <div class="restaurants-grid">
+        <!-- Restaurant cards remain the same but with consistent class names -->
+        <div class="restaurant-card">
+            <div class="restaurant-image">
+                <img src="images/cinnabon.png" alt="Cinnabon">
+                <span class="deal-badge">Open</span>
             </div>
-        </div>
-
-        <div class="restaurant-grid">
-            <!-- Restaurant 1 -->
-            <div class="restaurant-card">
-                <div class="restaurant-image">
-                    <img src="images/cinnabon.png" alt="Cinnabon">
-                    <div class="restaurant-status status-open">Open</div>
+            <div class="restaurant-info">
+                <h3 class="restaurant-name">Cinnabon</h3>
+                <div class="restaurant-category">
+                    <i class="fas fa-tag"></i> French, Desserts
                 </div>
-                <div class="restaurant-info">
-                    <h3 class="restaurant-name">Cinnabon</h3>
-                    <div class="restaurant-category">
-                        <i class="fas fa-tag"></i> french, desserts
-                    </div>
-                    <p class="restaurant-description"> desserts and coffee.</p>
-                    <div class="restaurant-stats">
-                        <span><i class="fas fa-star"></i> 4.7 (342)</span>
-                        <span><i class="fas fa-clock"></i> 25-35 min</span>
-                        <span><i class="fas fa-dollar-sign"></i> $$</span>
-                    </div>
-                    <div class="restaurant-actions">
-    <a href="./index.php?page=vendor&vendor=vendor_name" class="btn-primary">View Menu</a>
-</div>
+                <p class="restaurant-description">Desserts and coffee.</p>
+                <div class="restaurant-stats">
+                    <span><i class="fas fa-star"></i> 4.7 (342)</span>
+                    <span><i class="fas fa-clock"></i> 25-35 min</span>
+                    <span><i class="fas fa-dollar-sign"></i> $$</span>
+                </div>
+                <div class="restaurant-actions">
+                    <a href="./index.php?page=vendor&vendor=cinnabon" class="btn-primary">View Menu</a>
                 </div>
             </div>
-
+        </div>
             <!-- Restaurant 2 -->
             <div class="restaurant-card">
                 <div class="restaurant-image">
@@ -683,42 +254,7 @@
             </div>
         </div>
     </main>
-
-    <footer>
-        <div class="footer-content">
-            <div class="footer-section">
-                <h3>miu-talabat</h3>
-                <p>Streamlining restaurant orders with reliable partners and efficient management tools.</p>
-            </div>
-            <div class="footer-section">
-                <h3>Quick Links</h3>
-                <ul>
-                    <li><a href="#">Home</a></li>
-                    <li><a href="#">Restaurants</a></li>
-                    <li><a href="#">Orders</a></li>
-                    <li><a href="#">Menu Items</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Support</h3>
-                <ul>
-                    <li><a href="#">Help Center</a></li>
-                    <li><a href="#">Contact Us</a></li>
-                    <li><a href="#">FAQs</a></li>
-                </ul>
-            </div>
-            <div class="footer-section">
-                <h3>Contact Info</h3>
-                <ul>
-                    <li><i class="fas fa-phone"></i> 01003819669</li>
-                    <li><i class="fas fa-envelope"></i> support@Miu-Talabat.com</li>
-                </ul>
-            </div>
-        </div>
-        <div class="copyright">
-            &copy; 2025 miu-talabat. All rights reserved.
-        </div>
-    </footer>
+<?php include 'footer.php'; ?>
 
     <script>
         // Search functionality

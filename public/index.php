@@ -24,6 +24,9 @@ if ($page === 'vendor' && !empty($vendor)) {
 
 // Normal routing for other pages
 switch ($page) {
+    case 'Home':
+        $controller = new HomeController();
+        break;
     case 'login':
         $controller = new LoginController();
         break;

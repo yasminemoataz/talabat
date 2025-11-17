@@ -621,7 +621,7 @@ public function show($vendorId) {
     private function showGenericMenu($vendor, $menuItems) {
         echo "<!DOCTYPE html>";
         echo "<html>";
-        echo "<head><title>{$vendor['name']} - MIU Eats</title>";
+        echo "<head><title>{$vendor['name']} - MIU-Talabat</title>";
         echo "<style>body { font-family: Arial; padding: 20px; }</style>";
         echo "</head>";
         echo "<body>";
