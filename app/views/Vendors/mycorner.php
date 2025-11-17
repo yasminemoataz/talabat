@@ -99,9 +99,9 @@ if (session_status() == PHP_SESSION_NONE) {
             <?php endif; ?>
         </div>
     </main>
-
-    <?php include 'footer.php'; ?>
-
+<?php
+   include __DIR__ . '/../footer.php'; 
+?>
     <script>
     // Add hover effects for menu items
     document.addEventListener('DOMContentLoaded', function() {
