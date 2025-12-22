@@ -17,10 +17,10 @@ $hotDeals = [
         'description' => 'Exclusive Cinnabon desserts and treats with amazing discounts',
         'image' => 'images/oreo.webp'],
     [
-        'title' => 'Cinnabon Delights',
+        'title' => 'My Corner ',
         'discount' => '30% OFF',
-        'description' => 'Freshly baked cinnamon rolls with irresistible offers',
-        'image' =>'images/cinna.webp'
+        'description' => 'egyption traditional food with special prices',
+        'image' =>'images/mycorner.png'
     ],
     [
         'title' => 'Tbs Exclusive',
